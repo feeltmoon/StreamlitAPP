@@ -20,9 +20,9 @@ def find_file(filename, path):
         if filename in files:
             return os.path.join(root, filename)
 
-def generate_reports(selected_option, folder_name):
+def generate_reports(folder_name):
     
-    path = os.path.join(os.getcwd(), folder_name, selected_option)
+    path = os.path.join(os.getcwd(), folder_name)
     sub_dir_srcfiles = os.path.join(path, 'Source')
     
     if not os.path.isdir(sub_dir_srcfiles):
@@ -81,14 +81,14 @@ def main():
     options = ["QuarterlyReview", "Option 2", "Option 3"]
     selected_option = st.selectbox("Choose an option", options)
     
-    button = st.button('Create Folder')
+    #button = st.button('Create Folder')
     button1 = st.button('Generate Files')
     
     # if button:
     #     status = create_folder(selected_option, folder_name)
     #     st.write(status)
-    if button1:
-        status = generate_reports(selected_option, folder_name)
+    if button1 and selected_option == "QuarterlyReview":
+        status = generate_reports(folder_name)
         st.write(status)
 
 if __name__ == '__main__':
