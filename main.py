@@ -4,8 +4,8 @@ import streamlit as st
 import os
 import openpyxl
 
-def create_folder(fruit, folder_name):
-    path = os.path.join(os.getcwd(), folder_name, fruit)
+def create_folder(selected_option, folder_name):
+    path = os.path.join(os.getcwd(), folder_name, selected_option)
     if os.path.isdir(path):
         return 'Folder already exists'
     else:
@@ -33,15 +33,21 @@ def generate_reports(fruit, folder_name):
     # Do something with df1 here
 
 def main():
-    fruit = st.text_input('Fruit')
+
     folder_name = st.text_input('Folder Name')
-    if st.button('Create Folder'):
-        status = create_folder(fruit, folder_name)
+    
+    options = ["QuarterlyReview", "Option 2", "Option 3"]
+    selected_option = st.selectbox("Choose an option", options)
+    
+    button = st.button('Create Folder')
+    button1 = st.button('Generate Files')
+    
+    if button:
+        status = create_folder(selected_option, folder_name)
         st.write(status)
-    elif st.button('Generate Reports'):
-        status = generate_reports(fruit, folder_name)
+    elif button1:
+        status = generate_reports(selected_option, folder_name)
         st.write(status)
 
 if __name__ == '__main__':
     main()
-
