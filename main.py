@@ -23,10 +23,12 @@ def find_file(filename, path):
 def generate_reports(folder_name):
     
     path = os.path.join(os.getcwd(), folder_name)
-    sub_dir_srcfiles = os.path.join(path, 'Source')
+    sub_dir_srcfiles = os.path.join(path, 'Source')    
     
     if not os.path.isdir(sub_dir_srcfiles):
         return 'Source Files folder does not exist.'
+        return path
+        return sub_dir_srcfiles
     file_name_sugg = 'Medidata Rave EDC Roles Assignment and Quarterly Review Suggestions.xlsx'
     file_path_sugg = find_file(file_name_sugg, sub_dir_srcfiles)
     if not file_path_sugg:
