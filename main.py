@@ -19,6 +19,7 @@ def generate_reports(uploaded_files):
             filename = file.name
             #Read source files, df, df1, df2, df3
             ##read df1 from suggestion
+            return filename
             if "Medidata Rave EDC Roles Assignment and Quarterly Review Suggestions" in filename:
                 df1 = pd.read_excel(file,sheet_name='Live Contact List - Other',header=1)           
                 df1['Role'] = df1['Role'].astype(str)
