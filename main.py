@@ -31,7 +31,7 @@ def generate_reports(uploaded_files):
                 # Generate the output file name based on the input file name
                 output_file_name = f"{filename.split('.')[0]}_output.xlsx"
                 # Convert the DataFrame to an Excel file and add it to the list of output files
-                output_file_contents = df1.to_excel(index=False, header=True)
+                output_file_contents = df1.to_excel()
                 output_files.append((output_file_name, output_file_contents))
               
                 #df1.to_excel(path + '\\df1_debug.xlsx')
@@ -45,7 +45,7 @@ def generate_reports(uploaded_files):
                 # Generate the output file name based on the input file name
                 output_file_name_df2 = f"{filename.split('.')[0]}_output.xlsx"
                 # Convert the DataFrame to an Excel file and add it to the list of output files
-                output_file_contents_df2 = df2.to_excel(index=False, header=True)
+                output_file_contents_df2 = df2.to_excel()
                 output_files.append((output_file_name_df2, output_file_contents_df2))
                     
                     
