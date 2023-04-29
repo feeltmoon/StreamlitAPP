@@ -37,6 +37,16 @@ def generate_reports(uploaded_files):
                 df1['Role'] = df1['Role'].str.rstrip()
                 ## debug_output:
                 st.write(df1)
+                
+                # Add a download button to allow the user to download the DataFrame as an Excel file
+                output_file_name = "df1"
+                #output_file_name2 = "df2.xlsx"
+                #output_file_name3 = "df3.xlsx"
+                output_file_contents = df1.to_excel(index=False, header=True)
+                
+                st.download_button(label="Download output file", data=output_file_contents, file_name=output_file_name, mime="application/vnd.ms-excel")
+                
+                
                 #df1.to_excel(path + '\\df1_debug.xlsx')
                 ## read df2 from suggestion
                 df2 = pd.read_excel(file,sheet_name='Country Codes',usecols=['Country/Region Name','6 Digit Code'])
@@ -71,13 +81,13 @@ def generate_reports(uploaded_files):
                 st.write(df3)
                 
                 
-            # Add a download button to allow the user to download the DataFrame as an Excel file
-            output_file_name = "df1"
-            #output_file_name2 = "df2.xlsx"
-            #output_file_name3 = "df3.xlsx"
-            output_file_contents = df1.to_excel(index=False, header=True)
+            # # Add a download button to allow the user to download the DataFrame as an Excel file
+            # output_file_name = "df1"
+            # #output_file_name2 = "df2.xlsx"
+            # #output_file_name3 = "df3.xlsx"
+            # output_file_contents = df1.to_excel(index=False, header=True)
             
-            st.download_button(label="Download output file", data=output_file_contents, file_name=output_file_name, mime="application/vnd.ms-excel")
+            # st.download_button(label="Download output file", data=output_file_contents, file_name=output_file_name, mime="application/vnd.ms-excel")
 
     # df1.to_excel(path + '\\df1_debug.xlsx')
     # df2.to_excel(path + '\\df2_debug.xlsx')
