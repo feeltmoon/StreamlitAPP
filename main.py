@@ -80,7 +80,7 @@ def generate_reports(uploaded_files):
                         return 'no need to review'
                     elif y == 'Medidata Internal Beigeneclinical_ebr':
                         return 'no need to review'  
-                df['Assignment'] = df.apply(lambda x: NoNeedReview(x['Email'], x['Platform Role']),axis=1)
+                df['Assignment'] = df.apply(lambda x: NoNeedReview(x['Email'].astype(str), x['Platform Role'].astype(str)),axis=1)
                 df_row = df['Assignment'] != 'no need to review'
                 df_flter = df.loc[df_row,:]
                 df_flter = df_flter.drop(columns = ['Assignment'])
