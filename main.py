@@ -61,7 +61,8 @@ def generate_reports(uploaded_files):
         #read access reports_multiple
         for file in uploaded_files:
             bytes_data = file.read()
-            if file.endswith('.xlsx') and file.startswith('Quarterly Access Report'):
+            #if file.endswith('.xlsx') and file.startswith('Quarterly Access Report'):
+            if "Quarterly Access Report" in file.name:
                 df = pd.read_excel(bytes_data,dtype={'Study Environment Site Number': str},header=11,engine='openpyxl')
                 # remove 'Unnamed' column
                 for col, values in df.iteritems():
