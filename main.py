@@ -32,7 +32,11 @@ def generate_reports(uploaded_files):
         ##read df1 from suggestion
             if "Suggestions" in filename:
                 df1 = pd.read_excel(file,sheet_name='Live Contact List - Other',header=1)
-                df1 = df1.apply(lambda x: x.str.split('/').explode()).reset_index()
+                #df1 = df1.apply(lambda x: x.str.split('/').explode()).reset_index()
+                
+                df1['Role'] = df1['Role'].astype(str)
+                df1['Role'] = df1['Role'].apply(lambda x: x.split('/')).explode().reset_index(drop=True)  
+                
                 df1['Role'] = df1['Role'].str.lstrip()
                 df1['Role'] = df1['Role'].str.rstrip()
                 ## debug_output:
