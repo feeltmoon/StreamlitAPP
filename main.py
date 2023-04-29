@@ -8,9 +8,9 @@ import zipfile
 def find_file(filename, uploaded_files):
     for file in uploaded_files:
         if filename in file.name:
-            return filename
+            return file
 
-def generate_reports(uploaded_files):        
+def generate_reports(uploaded_files):
 
     if uploaded_files is not None:     
         output_files = []
@@ -19,12 +19,12 @@ def generate_reports(uploaded_files):
             filename = file.name
             #Read source files, df, df1, df2, df3
             ##read df1 from suggestion
-            #st.write(filename)
+            st.write(filename)
             
             file_name_sugg = 'Medidata Rave EDC Roles Assignment and Quarterly Review Suggestions.xlsx'                                       
             file_path_sugg = find_file(file_name_sugg,uploaded_files)
             
-            st.write(file_path_sugg)
+            st.write(file_path_sugg.name)
             df1 = pd.read_excel(file_path_sugg,sheet_name='Live Contact List - Other',header=1)           
             # df1['Role'] = df1['Role'].astype(str)
             # df1['Role'] = df1['Role'].apply(lambda x: x.split('/')).explode().reset_index(drop=True)                
@@ -106,4 +106,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
