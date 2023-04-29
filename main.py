@@ -19,7 +19,7 @@ def generate_reports(uploaded_files):
             filename = file.name
             #Read source files, df, df1, df2, df3
             ##read df1 from suggestion
-            st.write(filename)
+            #st.write(filename)
             
             file_name_sugg = 'Medidata Rave EDC Roles Assignment and Quarterly Review Suggestions.xlsx'                                       
             file_path_sugg = find_file(file_name_sugg,uploaded_files)
@@ -32,11 +32,11 @@ def generate_reports(uploaded_files):
             # df1['Role'] = df1['Role'].str.rstrip()
             # ## debug_output:
             # #st.write(df1)          
-            # # Generate the output file name based on the input file name
-            # output_file_name = f"{filename.split('.')[0]}_output.xlsx"
-            # # Convert the DataFrame to an Excel file and add it to the list of output files
-            # output_file_contents = df1.to_excel('df1_debug.xlsx')
-            # output_files.append((output_file_name, output_file_contents))
+            # Generate the output file name based on the input file name
+            output_file_name = f"{file_path_sugg.name.split('.')[0]}_output.xlsx"
+            # Convert the DataFrame to an Excel file and add it to the list of output files
+            output_file_contents = df1.to_excel('df1_debug.xlsx')
+            output_files.append((output_file_name, output_file_contents))
   
             
             # #df1.to_excel(path + '\\df1_debug.xlsx')
@@ -69,15 +69,15 @@ def generate_reports(uploaded_files):
             #     #df3.to_excel(path + '\\df3_debug.xlsx')
             #     st.write(df3)            
                 
-        # # Create a zip file containing all the output files
-        # zip_file_name = "output.zip"
-        # with zipfile.ZipFile(zip_file_name, "w") as zip_file:
-        #     for output_file in output_files:
-        #         zip_file.writestr(output_file[0], output_file[1])
-        # # Add a download button to allow the user to download the zip file
-        # with open(zip_file_name, "rb") as f:
-        #     zip_file_contents = f.read()
-        # st.download_button(label="Download all output files as a zip", data=zip_file_contents, file_name=zip_file_name, mime="application/zip")
+        # Create a zip file containing all the output files
+        zip_file_name = "output.zip"
+        with zipfile.ZipFile(zip_file_name, "w") as zip_file:
+            for output_file in output_files:
+                zip_file.writestr(output_file[0], output_file[1])
+        # Add a download button to allow the user to download the zip file
+        with open(zip_file_name, "rb") as f:
+            zip_file_contents = f.read()
+        st.download_button(label="Download all output files as a zip", data=zip_file_contents, file_name=zip_file_name, mime="application/zip")
                 
                 
 
