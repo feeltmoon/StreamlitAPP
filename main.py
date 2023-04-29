@@ -40,6 +40,54 @@ def generate_reports(uploaded_files):
             st.write(df2)
             output_df2_name = f"{file_sugg_obj.name.split('.')[0]}_df2.xlsx"
             zip_file.writestr(output_df2_name, bytes_data)
+        #read df3
+        file_name_nmlst = 'Name List.xlsx'
+        file_nmlst_obj = find_file(file_name_nmlst,uploaded_files)    
+        if file_nmlst_obj is not None:
+            bytes_data = file_nmlst_obj.read()
+            df3 = pd.read_excel(io.BytesIO(bytes_data),sheet_name='名录（按组织）',engine='openpyxl')
+            df3 = df3.rename(columns={'电子邮件地址': 'Email_Source', '职务头衔':'Title'})
+            def GetEmailAddress(x):
+                return x.split('（')[0].strip(' ')
+            df3.loc[:,'Email'] = df3['Email_Source'].astype(str).apply(lambda x: GetEmailAddress(x))
+            df3 = pd.DataFrame(df3,columns=(['Email','Title']))
+            df3 = df3.drop_duplicates(subset='Email')
+            df3.loc[:,'Email_Upper'] = df3.loc[:,'Email']
+            df3.loc[:,'Email_Upper'] = df3.apply(lambda x: x.str.upper())
+            df3 = df3.drop(columns='Email')
+            st.write(df3)
+            output_df3_name = f"{file_sugg_obj.name.split('.')[0]}_df3.xlsx"
+            zip_file.writestr(output_df3_name, bytes_data)
+        #read access reports_multiple
+        for file in uploaded_files:
+            bytes_data = file.read()
+            if file.endswith('.xlsx') and file.startswith('Quarterly Access Report'):
+                df = pd.read_excel(bytes_data,dtype={'Study Environment Site Number': str},header=11,engine='openpyxl')
+                # remove 'Unnamed' column
+                for col, values in df.iteritems():
+                    if 'Unnamed' in col:
+                        df = df.drop(columns=col)
+                #Method            
+                def NoNeedReview(x, y):
+                    if '@mdsol.com' in x:
+                        return 'no need to review'
+                    elif '@Medidata.com' in x:
+                        return 'no need to review'
+                    elif '@medidata.com' in x:
+                        return 'no need to review'
+                    elif '@3ds.com' in x:
+                        return 'no need to review'
+                    elif y == 'Medidata Internal Beigeneclinical_ebr':
+                        return 'no need to review'  
+                df['Assignment'] = df.apply(lambda x: NoNeedReview(x['Email'], x['Platform Role']),axis=1)
+                df_row = df['Assignment'] != 'no need to review'
+                df_flter = df.loc[df_row,:]
+                df_flter = df_flter.drop(columns = ['Assignment'])
+                st.write(df_flter)
+                output_df_flter_name = f"{file_sugg_obj.name.split('.')[0]}_review01.xlsx"
+                zip_file.writestr(output_df_flter_name, bytes_data)
+                
+        
 
         zip_file.close()
         
