@@ -21,7 +21,7 @@ def generate_excel_download_link(df):
 
 def generate_zip_download_link(zip_file):
     towrite = io.BytesIO()
-    zip_file.save(towrite)
+    zip_file.write(towrite)
     towrite.seek(0)
     b64 = base64.b64encode(towrite.read()).decode()
     href = f'<a href="data:application/zip;base64,{b64}" download="data_download.zip">Download Zip File</a>'
