@@ -84,12 +84,17 @@ def generate_reports(uploaded_files):
                 df_row = df['Assignment'] != 'no need to review'
                 df_flter = df.loc[df_row,:]
                 df_flter = df_flter.drop(columns = ['Assignment'])
-                st.write(df_flter)
-                output_df_flter_name = f"{file_sugg_obj.name.split('.')[0]}_review01.xlsx"
-                zip_file.writestr(output_df_flter_name, bytes_data)
+                # Save the filtered data to a new Excel file
+                writer_df_flter = pd.ExcelWriter('review_01.xlsx', engine='openpyxl')
+                df_flter.to_excel(writer_df_flter, sheet_name='Sheet1', index=False)
+                writer_df_flter.save()
+                # Add the filtered data to the zip file
+                output_df_flter_name = f"{file.name.split('.')[0]}_review01.xlsx"
+                with open('review_01.xlsx', 'rb') as f:
+                    data = f.read()
+                    zip_file.writestr(output_df_flter_name, data)
                 
-        
-
+                
         zip_file.close()
         
         
