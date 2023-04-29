@@ -12,6 +12,16 @@ def find_file(filename, uploaded_files):
         if filename in file.name:
             return file
 
+def generate_excel_download_link(df):
+    towrite = io.BytesIO()
+    df.to_excel(towrite, encoding="utf-8", index=False, header=True)
+    towrite.seek(0)
+    b64 = base64.b64encode(towrite.read()).decode()
+    href = f'<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{b64}" download="data_download.xlsx">Download Excel File</a>'
+    return st.markdown(href, unsafe_allow_html=True)
+
+
+
 def generate_zip_download_link(zip_file):
     towrite = io.BytesIO()
     zip_file.save(towrite)
@@ -47,16 +57,18 @@ def generate_reports(uploaded_files):
             dfs.append(df1)
             st.write(f'File name: {file.name}')
             
+            generate_excel_download_link(df1)
             
-        if len(dfs) > 0:
-            zip_file = zipfile.ZipFile('data_download.zip', 'w')
-            for i in range(len(dfs)):
-                df = dfs[i]
-                filename = f'data_{i}.xlsx'
-                df.to_excel(filename, encoding="utf-8", index=False)
-                zip_file.write(filename)
-            zip_file.close()
-            generate_zip_download_link(zip_file)
+            
+        # if len(dfs) > 0:
+        #     zip_file = zipfile.ZipFile('data_download.zip', 'w')
+        #     for i in range(len(dfs)):
+        #         df = dfs[i]
+        #         filename = f'data_{i}.xlsx'
+        #         df.to_excel(filename, encoding="utf-8", index=False)
+        #         zip_file.write(filename)
+        #     zip_file.close()
+        #     generate_zip_download_link(zip_file)
             
             
            
@@ -144,3 +156,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
