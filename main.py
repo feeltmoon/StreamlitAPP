@@ -36,7 +36,7 @@ def generate_reports(uploaded_files):
             output_file_name = f"{file_path_sugg.name.split('.')[0]}_output.xlsx"
             st.write(output_file_name)
             # Convert the DataFrame to an Excel file and add it to the list of output files
-            output_file_contents = df1.to_excel('df1_debug.xlsx')
+            output_file_contents = df1.to_excel('df1_debug.xlsx',engine='openpyxl')
             output_files.append((output_file_name, output_file_contents))
             # st.write(type(output_files))
             # st.write(len(output_files))
