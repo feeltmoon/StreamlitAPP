@@ -37,10 +37,9 @@ def generate_reports(uploaded_files):
             st.write(output_file_name)
             # Convert the DataFrame to an Excel file and add it to the list of output files
             output_file_contents = df1.to_excel('df1_debug.xlsx')
-            st.write(len(output_file_contents))
             output_files.append((output_file_name, output_file_contents))
-  
-            
+            st.write(type(output_files))
+            st.write(len(output_files))
             # #df1.to_excel(path + '\\df1_debug.xlsx')
             # ## read df2 from suggestion
             # df2 = pd.read_excel(file_path_sugg,sheet_name='Country Codes',usecols=['Country/Region Name','6 Digit Code'])
