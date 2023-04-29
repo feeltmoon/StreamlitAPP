@@ -38,8 +38,8 @@ def generate_reports(uploaded_files):
             # Convert the DataFrame to an Excel file and add it to the list of output files
             output_file_contents = df1.to_excel('df1_debug.xlsx')
             output_files.append((output_file_name, output_file_contents))
-            st.write(type(output_files))
-            st.write(len(output_files))
+            # st.write(type(output_files))
+            # st.write(len(output_files))
             # #df1.to_excel(path + '\\df1_debug.xlsx')
             # ## read df2 from suggestion
             # df2 = pd.read_excel(file_path_sugg,sheet_name='Country Codes',usecols=['Country/Region Name','6 Digit Code'])
@@ -70,15 +70,15 @@ def generate_reports(uploaded_files):
             #     #df3.to_excel(path + '\\df3_debug.xlsx')
             #     st.write(df3)            
                 
-        # # Create a zip file containing all the output files
-        # zip_file_name = "output.zip"
-        # with zipfile.ZipFile(zip_file_name, "w") as zip_file:
-        #     for output_file in output_files:
-        #         zip_file.writestr(output_file[0], output_file[1])
-        # # Add a download button to allow the user to download the zip file
-        # with open(zip_file_name, "rb") as f:
-        #     zip_file_contents = f.read()
-        # st.download_button(label="Download all output files as a zip", data=zip_file_contents, file_name=zip_file_name, mime="application/zip")
+        # Create a zip file containing all the output files
+        zip_file_name = "output.zip"
+        with zipfile.ZipFile(zip_file_name, "w") as zip_file:
+            for output_file in output_files:
+                zip_file.writestr(output_file[0], output_file[1])
+        # Add a download button to allow the user to download the zip file
+        with open(zip_file_name, "rb") as f:
+            zip_file_contents = f.read()
+        st.download_button(label="Download all output files as a zip", data=zip_file_contents, file_name=zip_file_name, mime="application/zip")
                 
                 
 
@@ -107,3 +107,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
