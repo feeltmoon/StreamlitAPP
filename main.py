@@ -7,7 +7,7 @@ import zipfile
 
 def find_file(filename, uploaded_files):
     for file in uploaded_files:
-        if filename in file:
+        if filename in file.name:
             return filename
 
 def generate_reports(uploaded_files):        
@@ -24,34 +24,34 @@ def generate_reports(uploaded_files):
             file_name_sugg = 'Medidata Rave EDC Roles Assignment and Quarterly Review Suggestions.xlsx'                                       
             file_path_sugg = find_file(file_name_sugg,uploaded_files)
             
-            
-            df1 = pd.read_excel(file_path_sugg,sheet_name='Live Contact List - Other',header=1)           
-            df1['Role'] = df1['Role'].astype(str)
-            df1['Role'] = df1['Role'].apply(lambda x: x.split('/')).explode().reset_index(drop=True)                
-            df1['Role'] = df1['Role'].str.lstrip()
-            df1['Role'] = df1['Role'].str.rstrip()
-            ## debug_output:
-            #st.write(df1)          
-            # Generate the output file name based on the input file name
-            output_file_name = f"{filename.split('.')[0]}_output.xlsx"
-            # Convert the DataFrame to an Excel file and add it to the list of output files
-            output_file_contents = df1.to_excel('df1_debug.xlsx')
-            output_files.append((output_file_name, output_file_contents))
+            st.write(file_path_sugg)
+            # df1 = pd.read_excel(file_path_sugg,sheet_name='Live Contact List - Other',header=1)           
+            # df1['Role'] = df1['Role'].astype(str)
+            # df1['Role'] = df1['Role'].apply(lambda x: x.split('/')).explode().reset_index(drop=True)                
+            # df1['Role'] = df1['Role'].str.lstrip()
+            # df1['Role'] = df1['Role'].str.rstrip()
+            # ## debug_output:
+            # #st.write(df1)          
+            # # Generate the output file name based on the input file name
+            # output_file_name = f"{filename.split('.')[0]}_output.xlsx"
+            # # Convert the DataFrame to an Excel file and add it to the list of output files
+            # output_file_contents = df1.to_excel('df1_debug.xlsx')
+            # output_files.append((output_file_name, output_file_contents))
   
             
-            #df1.to_excel(path + '\\df1_debug.xlsx')
-            ## read df2 from suggestion
-            df2 = pd.read_excel(file_path_sugg,sheet_name='Country Codes',usecols=['Country/Region Name','6 Digit Code'])
-            df2 = df2.loc[~df2['Country/Region Name'].isna(),:]
-            df2['Code_Sub'] = df2['6 Digit Code'].str[:3]
-            df2 = df2.drop_duplicates(subset='Code_Sub',keep='last')
-            df2 = df2.drop(columns='6 Digit Code')
+            # #df1.to_excel(path + '\\df1_debug.xlsx')
+            # ## read df2 from suggestion
+            # df2 = pd.read_excel(file_path_sugg,sheet_name='Country Codes',usecols=['Country/Region Name','6 Digit Code'])
+            # df2 = df2.loc[~df2['Country/Region Name'].isna(),:]
+            # df2['Code_Sub'] = df2['6 Digit Code'].str[:3]
+            # df2 = df2.drop_duplicates(subset='Code_Sub',keep='last')
+            # df2 = df2.drop(columns='6 Digit Code')
                 
-            # Generate the output file name based on the input file name
-            output_file_name_df2 = f"{filename.split('.')[0]}_output.xlsx"
-            # Convert the DataFrame to an Excel file and add it to the list of output files
-            output_file_contents_df2 = df2.to_excel('df2_debug.xlsx')
-            output_files.append((output_file_name_df2, output_file_contents_df2))
+            # # Generate the output file name based on the input file name
+            # output_file_name_df2 = f"{filename.split('.')[0]}_output.xlsx"
+            # # Convert the DataFrame to an Excel file and add it to the list of output files
+            # output_file_contents_df2 = df2.to_excel('df2_debug.xlsx')
+            # output_files.append((output_file_name_df2, output_file_contents_df2))
                     
                     
             # if "name list" in filename:               
@@ -69,15 +69,15 @@ def generate_reports(uploaded_files):
             #     #df3.to_excel(path + '\\df3_debug.xlsx')
             #     st.write(df3)            
                 
-        # Create a zip file containing all the output files
-        zip_file_name = "output.zip"
-        with zipfile.ZipFile(zip_file_name, "w") as zip_file:
-            for output_file in output_files:
-                zip_file.writestr(output_file[0], output_file[1])
-        # Add a download button to allow the user to download the zip file
-        with open(zip_file_name, "rb") as f:
-            zip_file_contents = f.read()
-        st.download_button(label="Download all output files as a zip", data=zip_file_contents, file_name=zip_file_name, mime="application/zip")
+        # # Create a zip file containing all the output files
+        # zip_file_name = "output.zip"
+        # with zipfile.ZipFile(zip_file_name, "w") as zip_file:
+        #     for output_file in output_files:
+        #         zip_file.writestr(output_file[0], output_file[1])
+        # # Add a download button to allow the user to download the zip file
+        # with open(zip_file_name, "rb") as f:
+        #     zip_file_contents = f.read()
+        # st.download_button(label="Download all output files as a zip", data=zip_file_contents, file_name=zip_file_name, mime="application/zip")
                 
                 
 
@@ -106,3 +106,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
