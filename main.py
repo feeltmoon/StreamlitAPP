@@ -3,6 +3,7 @@ import pandas as pd
 import io
 import zipfile
 import base64
+import openpyxl
 
 def main():
     st.title("Multiple Excel Files Uploader")
@@ -11,7 +12,7 @@ def main():
         zip_file = zipfile.ZipFile("data_download.zip", mode="w")
         for uploaded_file in uploaded_files:
             bytes_data = uploaded_file.read()
-            df = pd.read_excel(io.BytesIO(bytes_data))
+            df = pd.read_excel(io.BytesIO(bytes_data),engine='openpyxl')
             st.write(df)
             zip_file.writestr(uploaded_file.name, bytes_data)
         zip_file.close()
