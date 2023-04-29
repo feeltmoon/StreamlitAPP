@@ -4,6 +4,7 @@ import streamlit as st
 import os
 import openpyxl
 import zipfile
+import io
 
 def find_file(filename, uploaded_files):
     for file in uploaded_files:
@@ -36,8 +37,15 @@ def generate_reports(uploaded_files):
             output_file_name = f"{file_path_sugg.name.split('.')[0]}_output.xlsx"
             st.write(output_file_name)
             # Convert the DataFrame to an Excel file and add it to the list of output files
-            output_file_contents = df1.to_excel('df1_debug.xlsx',engine='openpyxl')
+            #output_file_contents = df1.to_excel('df1_debug.xlsx',engine='openpyxl')
+                        
+            output_file_contents = io.BytesIO()
+            with pd.ExcelWriter(output_file_contents, engine='openpyxl') as writer:
+                df1.to_excel(writer, index=False)
+            output_file_contents.seek(0)
+            
             output_files.append((output_file_name, output_file_contents))
+            
             # st.write(type(output_files))
             # st.write(len(output_files))
             # #df1.to_excel(path + '\\df1_debug.xlsx')
@@ -107,4 +115,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
