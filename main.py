@@ -263,7 +263,7 @@ def generate_reports(uploaded_files):
                         new_sheet[cell] = "Pass"
                     else:
                         #sheet_schedule.write(cell, 'Fail' + '(' + str(sumErr) + ')')  
-                        new_sheet[cell] = "Fail" + "(" + str(len(len_df)) + ")"
+                        new_sheet[cell] = "Fail" + "(" + str(len_df) + ")"
                 
                 PassOrFail2(len(chk03_01)-1, "C3")
                 # Save the changes to the file
