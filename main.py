@@ -217,6 +217,9 @@ def generate_reports(uploaded_files):
                     chk03_01 = pd.DataFrame(chk03_01,columns=(['Client Division Scheme','Study','Environment','First Name','Last Name','Email','Phone #',
                                                                'Platform Role','Assignment Status','Location','Study Environment Site Number','Assignment',
                                                                'Review Result/Comment/Action']))
+                    
+                # get error count
+                chk03_01_sumError = len(chk03_01)
                 
                 # Check03 Merge
                 # check03_merge into concat
@@ -236,8 +239,8 @@ def generate_reports(uploaded_files):
                 #concat_chk03.to_excel(path + r'\concat_chk03.xlsx',index=False)
                 
                 # SUM ERROR   
-                chk03_01_agg = pd.DataFrame(chk03_01,columns=(['Study','Review Result/Comment/Action']))
-                chk03_01_sumError = chk03_01_agg.groupby(['Study'])['Review Result/Comment/Action'].count().reset_index()
+                # chk03_01_agg = pd.DataFrame(chk03_01,columns=(['Study','Review Result/Comment/Action']))
+                # chk03_01_sumError = chk03_01_agg.groupby(['Study'])['Review Result/Comment/Action'].count().reset_index()
                 #chk03_01_sumError.to_excel(path + r'\chk03_sumError.xlsx',index=False)
                 #wb_chk03 = openpyxl.load_workbook(path + r'\chk03_sumError.xlsx')
                 #ws_chk03 = wb_chk03['Sheet1']
@@ -258,14 +261,14 @@ def generate_reports(uploaded_files):
                 new_sheet['B2'] = '"Assignment status" column has been reviewed and proper reminders have been sent to EDC Admin or users (if any).'
                 new_sheet['C1'] = 'Pass/Fail'
                 
-                def PassOrFail2(len_df, cell):
-                    if len_df == -1:
+                def PassOrFail2(sumError, cell):
+                    if sumError == 0:
                         new_sheet[cell] = "Pass"
                     else:
                         #sheet_schedule.write(cell, 'Fail' + '(' + str(sumErr) + ')')  
-                        new_sheet[cell] = "Fail" + "(" + str(len_df) + ")"
+                        new_sheet[cell] = "Fail" + "(" + str(sumError) + ")"
                 
-                PassOrFail2(len(chk03_01)-1, "C3")
+                PassOrFail2(chk03_01_sumError, "C3")
                 # Save the changes to the file
                 workbook.save('concat_chk03.xlsx')    
                 
