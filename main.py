@@ -236,7 +236,7 @@ def generate_reports(uploaded_files):
                 #concat_chk03.to_excel(path + r'\concat_chk03.xlsx',index=False)
                 # Create a writer for concat_chk03
                 writer_concat_chk03 = pd.ExcelWriter('concat_chk03.xlsx', engine='openpyxl')
-                df_flter.to_excel(writer_concat_chk03, index=False)
+                concat_chk03.to_excel(writer_concat_chk03, index=False)                
                 writer_concat_chk03.save()
                 # Add the filtered data to the zip file
                 output_concat_chk03 = f"{file.name.split('.')[0]}_result.xlsx"
