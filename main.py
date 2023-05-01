@@ -165,65 +165,67 @@ def generate_reports(uploaded_files):
                                                        'Assignment_pri','Assignment_rev02','Review02']))
                 
                 
-                # debug output
-                # Save the data to a new Excel file
-                writer_concat = pd.ExcelWriter('concat.xlsx', engine='openpyxl')
-                concat.to_excel(writer_concat, index=False)
-                writer_concat.save()
-                # Add the filtered data to the zip file
-                output_concat_name = f"{file.name.split('.')[0]}_concat.xlsx"
-                with open('concat.xlsx', 'rb') as f:
-                    data = f.read()
-                    zip_file.writestr(output_concat_name, data)
+                # # debug output
+                # # Save the data to a new Excel file
+                # writer_concat = pd.ExcelWriter('concat.xlsx', engine='openpyxl')
+                # concat.to_excel(writer_concat, index=False)
+                # writer_concat.save()
+                # # Add the filtered data to the zip file
+                # output_concat_name = f"{file.name.split('.')[0]}_concat.xlsx"
+                # with open('concat.xlsx', 'rb') as f:
+                #     data = f.read()
+                #     zip_file.writestr(output_concat_name, data)
                 
-                # #**************************Check 03*********************************
-                # chk03 = df_flter.copy()
-                # chk03_01 = chk03.loc[chk03['Assignment Status'] != 'Active',:]
-                # # 20220809 modified:
-                # # required by Yun and Praveen
-                # def Reminder(x):
-                #     if x == 'Activation Expired':
-                #         return 'User did not activate their iMedidata account within the 45-day time frame, please request EDC Admin resending invitation mail to user.'
-                #     elif x == 'Activation Pending':
-                #         return 'please request EDC Admin resending invitation mail to user and inform the user to activate the account'
-                #     elif x == 'Activation Declined':
-                #         return 'User has declined the End-User License Agreement, please request EDC Admin resending invitation mail to user.'
-                #     elif x == 'Activation Email Delivered':
-                #         return 'User has not yet activated their iMedidata account. please remind user to activated their iMedidata account'
-                #     elif x == 'Activation Email Error' or x == 'Activation Email Failure' or x == 'Activation Email Send Failure' or x == 'Activation Email Delivery Failure':
-                #         return 'please request EDC Admin resending invitation mail to user or double check eMail ID with user'
-                #     elif x == 'Email Does Not Exist' or x == 'Activation Email Blocked':
-                #         return 'please double check with user'
-                #     elif x == 'eLearning Required':
-                #         return 'please remind user to complete the eLearning.'
-                # chk03_01.loc[:,'Review Result/Comment/Action'] = chk03_01['Assignment Status'].apply(lambda x: Reminder(x))
+                #**************************Check 03*********************************
+                chk03 = df_flter.copy()
+                chk03_01 = chk03.loc[chk03['Assignment Status'] != 'Active',:]
+                # 20220809 modified:
+                # required by Yun and Praveen
+                def Reminder(x):
+                    if x == 'Activation Expired':
+                        return 'User did not activate their iMedidata account within the 45-day time frame, please request EDC Admin resending invitation mail to user.'
+                    elif x == 'Activation Pending':
+                        return 'please request EDC Admin resending invitation mail to user and inform the user to activate the account'
+                    elif x == 'Activation Declined':
+                        return 'User has declined the End-User License Agreement, please request EDC Admin resending invitation mail to user.'
+                    elif x == 'Activation Email Delivered':
+                        return 'User has not yet activated their iMedidata account. please remind user to activated their iMedidata account'
+                    elif x == 'Activation Email Error' or x == 'Activation Email Failure' or x == 'Activation Email Send Failure' or x == 'Activation Email Delivery Failure':
+                        return 'please request EDC Admin resending invitation mail to user or double check eMail ID with user'
+                    elif x == 'Email Does Not Exist' or x == 'Activation Email Blocked':
+                        return 'please double check with user'
+                    elif x == 'eLearning Required':
+                        return 'please remind user to complete the eLearning.'
+                chk03_01.loc[:,'Review Result/Comment/Action'] = chk03_01['Assignment Status'].apply(lambda x: Reminder(x))
                 
-                # if not chk03_01.empty:
-                #     def chk03_Classify(x, y, z):
-                #         if x == 'IxRS - Investigator' or x == 'Investigator' or x == 'IxRS - Sub-I' or x == 'Sub-I' or x == 'IxRS - Clinical Research Coordinator' or x == 'Clinical Research Coordinator' or x == 'Data Entry' or x == 'Test - IxRS - Investigator' or x == 'Test - Investigator' or x == 'Test - IxRS - Sub-I' or x == 'Test - Sub-I' or x == 'Test - IxRS - Clinical Research Coordinator' or x == 'Test - Clinical Research Coordinator':
-                #             return 'ACOM/PMA/CTA/Regional designee'
-                #         elif x == 'Read Only - Blinded' or x == 'Data Manager' or x == 'Safety' or x == 'Medical Monitor 1' or x == 'Medical Monitor 2' or x == 'Medical Monitor Blinded' or x == 'Test - Data Manager' or x == 'Test - Medical Monitor 1' or x == 'Test - Medical Monitor 2': 
-                #             return 'DM'
-                #         elif x == 'Read Only - All Sites' or x == 'EDC Admin' or x == 'Coder' or x == 'Lab Entry' or x == 'Data PDF' or x == 'Power User - SiM' or x == 'Outputs Standard' or x == 'Outputs - Blinded' or x == 'Output Locked': 
-                #             return 'EDC Admin'
-                #         elif x == 'Read Only' and y.__contains__('@beigene.com') and z == 'All Sites':
-                #             return 'DM, COM/COM designee'
-                #         elif x == 'Read Only' and (y.find('@beigene.com') == -1 or pd.isna(z)):
-                #             return 'COM/COM designee'
-                #         elif x == 'Acknowledger' or x == 'Clinical Research Associate' or x == 'Test - Clinical Research Associate':
-                #             return 'COM/COM designee'   
+                if not chk03_01.empty:
+                    def chk03_Classify(x, y, z):
+                        if x == 'IxRS - Investigator' or x == 'Investigator' or x == 'IxRS - Sub-I' or x == 'Sub-I' or x == 'IxRS - Clinical Research Coordinator' or x == 'Clinical Research Coordinator' or x == 'Data Entry' or x == 'Test - IxRS - Investigator' or x == 'Test - Investigator' or x == 'Test - IxRS - Sub-I' or x == 'Test - Sub-I' or x == 'Test - IxRS - Clinical Research Coordinator' or x == 'Test - Clinical Research Coordinator':
+                            return 'ACOM/PMA/CTA/Regional designee'
+                        elif x == 'Read Only - Blinded' or x == 'Data Manager' or x == 'Safety' or x == 'Medical Monitor 1' or x == 'Medical Monitor 2' or x == 'Medical Monitor Blinded' or x == 'Test - Data Manager' or x == 'Test - Medical Monitor 1' or x == 'Test - Medical Monitor 2': 
+                            return 'DM'
+                        elif x == 'Read Only - All Sites' or x == 'EDC Admin' or x == 'Coder' or x == 'Lab Entry' or x == 'Data PDF' or x == 'Power User - SiM' or x == 'Outputs Standard' or x == 'Outputs - Blinded' or x == 'Output Locked': 
+                            return 'EDC Admin'
+                        elif x == 'Read Only' and y.__contains__('@beigene.com') and z == 'All Sites':
+                            return 'DM, COM/COM designee'
+                        elif x == 'Read Only' and (y.find('@beigene.com') == -1 or pd.isna(z)):
+                            return 'COM/COM designee'
+                        elif x == 'Acknowledger' or x == 'Clinical Research Associate' or x == 'Test - Clinical Research Associate':
+                            return 'COM/COM designee'   
                 
-                #     chk03_01.loc[:, 'Assignment'] = chk03_01.apply(lambda x: chk03_Classify(x['Platform Role'],x['Email'],x['Location']), axis=1)
-                #     chk03_01 = pd.DataFrame(chk03_01,columns=(['Client Division Scheme','Study','Environment','First Name','Last Name','Email','Phone #',
-                #                                                'Platform Role','Assignment Status','Location','Study Environment Site Number','Assignment',
-                #                                                'Review Result/Comment/Action']))
-                # elif chk03_01.empty:
-                #     chk03_01 = pd.DataFrame(chk03_01,columns=(['Client Division Scheme','Study','Environment','First Name','Last Name','Email','Phone #',
-                #                                                'Platform Role','Assignment Status','Location','Study Environment Site Number','Assignment',
-                #                                                'Review Result/Comment/Action']))
+                    chk03_01.loc[:, 'Assignment'] = chk03_01.apply(lambda x: chk03_Classify(x['Platform Role'],x['Email'],x['Location']), axis=1)
+                    chk03_01 = pd.DataFrame(chk03_01,columns=(['Client Division Scheme','Study','Environment','First Name','Last Name','Email','Phone #',
+                                                                'Platform Role','Assignment Status','Location','Study Environment Site Number','Assignment',
+                                                                'Review Result/Comment/Action']))
+                elif chk03_01.empty:
+                    chk03_01 = pd.DataFrame(chk03_01,columns=(['Client Division Scheme','Study','Environment','First Name','Last Name','Email','Phone #',
+                                                                'Platform Role','Assignment Status','Location','Study Environment Site Number','Assignment',
+                                                                'Review Result/Comment/Action']))
                     
-                # # get error count
-                # chk03_01_sumError = len(chk03_01)
+                # get error count
+                st.write(chk03_01)
+                chk03_01_sumError = len(chk03_01)
+                st.write(str(len(chk03_01)))
                 
                 # # Check03 Merge
                 # # check03_merge into concat
