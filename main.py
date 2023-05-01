@@ -172,104 +172,104 @@ def generate_reports(uploaded_files):
                 output_concat_name = f"{file.name.split('.')[0]}_concat.xlsx"
                 with open('concat.xlsx', 'rb') as f:
                     data = f.read()
-                    zip_file.writestr(output_df_flter_name, data)
+                    zip_file.writestr(output_concat_name, data)
                 
-                #**************************Check 03*********************************
-                chk03 = df_flter.copy()
-                chk03_01 = chk03.loc[chk03['Assignment Status'] != 'Active',:]
-                # 20220809 modified:
-                # required by Yun and Praveen
-                def Reminder(x):
-                    if x == 'Activation Expired':
-                        return 'User did not activate their iMedidata account within the 45-day time frame, please request EDC Admin resending invitation mail to user.'
-                    elif x == 'Activation Pending':
-                        return 'please request EDC Admin resending invitation mail to user and inform the user to activate the account'
-                    elif x == 'Activation Declined':
-                        return 'User has declined the End-User License Agreement, please request EDC Admin resending invitation mail to user.'
-                    elif x == 'Activation Email Delivered':
-                        return 'User has not yet activated their iMedidata account. please remind user to activated their iMedidata account'
-                    elif x == 'Activation Email Error' or x == 'Activation Email Failure' or x == 'Activation Email Send Failure' or x == 'Activation Email Delivery Failure':
-                        return 'please request EDC Admin resending invitation mail to user or double check eMail ID with user'
-                    elif x == 'Email Does Not Exist' or x == 'Activation Email Blocked':
-                        return 'please double check with user'
-                    elif x == 'eLearning Required':
-                        return 'please remind user to complete the eLearning.'
-                chk03_01.loc[:,'Review Result/Comment/Action'] = chk03_01['Assignment Status'].apply(lambda x: Reminder(x))
+                # #**************************Check 03*********************************
+                # chk03 = df_flter.copy()
+                # chk03_01 = chk03.loc[chk03['Assignment Status'] != 'Active',:]
+                # # 20220809 modified:
+                # # required by Yun and Praveen
+                # def Reminder(x):
+                #     if x == 'Activation Expired':
+                #         return 'User did not activate their iMedidata account within the 45-day time frame, please request EDC Admin resending invitation mail to user.'
+                #     elif x == 'Activation Pending':
+                #         return 'please request EDC Admin resending invitation mail to user and inform the user to activate the account'
+                #     elif x == 'Activation Declined':
+                #         return 'User has declined the End-User License Agreement, please request EDC Admin resending invitation mail to user.'
+                #     elif x == 'Activation Email Delivered':
+                #         return 'User has not yet activated their iMedidata account. please remind user to activated their iMedidata account'
+                #     elif x == 'Activation Email Error' or x == 'Activation Email Failure' or x == 'Activation Email Send Failure' or x == 'Activation Email Delivery Failure':
+                #         return 'please request EDC Admin resending invitation mail to user or double check eMail ID with user'
+                #     elif x == 'Email Does Not Exist' or x == 'Activation Email Blocked':
+                #         return 'please double check with user'
+                #     elif x == 'eLearning Required':
+                #         return 'please remind user to complete the eLearning.'
+                # chk03_01.loc[:,'Review Result/Comment/Action'] = chk03_01['Assignment Status'].apply(lambda x: Reminder(x))
                 
-                if not chk03_01.empty:
-                    def chk03_Classify(x, y, z):
-                        if x == 'IxRS - Investigator' or x == 'Investigator' or x == 'IxRS - Sub-I' or x == 'Sub-I' or x == 'IxRS - Clinical Research Coordinator' or x == 'Clinical Research Coordinator' or x == 'Data Entry' or x == 'Test - IxRS - Investigator' or x == 'Test - Investigator' or x == 'Test - IxRS - Sub-I' or x == 'Test - Sub-I' or x == 'Test - IxRS - Clinical Research Coordinator' or x == 'Test - Clinical Research Coordinator':
-                            return 'ACOM/PMA/CTA/Regional designee'
-                        elif x == 'Read Only - Blinded' or x == 'Data Manager' or x == 'Safety' or x == 'Medical Monitor 1' or x == 'Medical Monitor 2' or x == 'Medical Monitor Blinded' or x == 'Test - Data Manager' or x == 'Test - Medical Monitor 1' or x == 'Test - Medical Monitor 2': 
-                            return 'DM'
-                        elif x == 'Read Only - All Sites' or x == 'EDC Admin' or x == 'Coder' or x == 'Lab Entry' or x == 'Data PDF' or x == 'Power User - SiM' or x == 'Outputs Standard' or x == 'Outputs - Blinded' or x == 'Output Locked': 
-                            return 'EDC Admin'
-                        elif x == 'Read Only' and y.__contains__('@beigene.com') and z == 'All Sites':
-                            return 'DM, COM/COM designee'
-                        elif x == 'Read Only' and (y.find('@beigene.com') == -1 or pd.isna(z)):
-                            return 'COM/COM designee'
-                        elif x == 'Acknowledger' or x == 'Clinical Research Associate' or x == 'Test - Clinical Research Associate':
-                            return 'COM/COM designee'   
+                # if not chk03_01.empty:
+                #     def chk03_Classify(x, y, z):
+                #         if x == 'IxRS - Investigator' or x == 'Investigator' or x == 'IxRS - Sub-I' or x == 'Sub-I' or x == 'IxRS - Clinical Research Coordinator' or x == 'Clinical Research Coordinator' or x == 'Data Entry' or x == 'Test - IxRS - Investigator' or x == 'Test - Investigator' or x == 'Test - IxRS - Sub-I' or x == 'Test - Sub-I' or x == 'Test - IxRS - Clinical Research Coordinator' or x == 'Test - Clinical Research Coordinator':
+                #             return 'ACOM/PMA/CTA/Regional designee'
+                #         elif x == 'Read Only - Blinded' or x == 'Data Manager' or x == 'Safety' or x == 'Medical Monitor 1' or x == 'Medical Monitor 2' or x == 'Medical Monitor Blinded' or x == 'Test - Data Manager' or x == 'Test - Medical Monitor 1' or x == 'Test - Medical Monitor 2': 
+                #             return 'DM'
+                #         elif x == 'Read Only - All Sites' or x == 'EDC Admin' or x == 'Coder' or x == 'Lab Entry' or x == 'Data PDF' or x == 'Power User - SiM' or x == 'Outputs Standard' or x == 'Outputs - Blinded' or x == 'Output Locked': 
+                #             return 'EDC Admin'
+                #         elif x == 'Read Only' and y.__contains__('@beigene.com') and z == 'All Sites':
+                #             return 'DM, COM/COM designee'
+                #         elif x == 'Read Only' and (y.find('@beigene.com') == -1 or pd.isna(z)):
+                #             return 'COM/COM designee'
+                #         elif x == 'Acknowledger' or x == 'Clinical Research Associate' or x == 'Test - Clinical Research Associate':
+                #             return 'COM/COM designee'   
                 
-                    chk03_01.loc[:, 'Assignment'] = chk03_01.apply(lambda x: chk03_Classify(x['Platform Role'],x['Email'],x['Location']), axis=1)
-                    chk03_01 = pd.DataFrame(chk03_01,columns=(['Client Division Scheme','Study','Environment','First Name','Last Name','Email','Phone #',
-                                                               'Platform Role','Assignment Status','Location','Study Environment Site Number','Assignment',
-                                                               'Review Result/Comment/Action']))
-                elif chk03_01.empty:
-                    chk03_01 = pd.DataFrame(chk03_01,columns=(['Client Division Scheme','Study','Environment','First Name','Last Name','Email','Phone #',
-                                                               'Platform Role','Assignment Status','Location','Study Environment Site Number','Assignment',
-                                                               'Review Result/Comment/Action']))
+                #     chk03_01.loc[:, 'Assignment'] = chk03_01.apply(lambda x: chk03_Classify(x['Platform Role'],x['Email'],x['Location']), axis=1)
+                #     chk03_01 = pd.DataFrame(chk03_01,columns=(['Client Division Scheme','Study','Environment','First Name','Last Name','Email','Phone #',
+                #                                                'Platform Role','Assignment Status','Location','Study Environment Site Number','Assignment',
+                #                                                'Review Result/Comment/Action']))
+                # elif chk03_01.empty:
+                #     chk03_01 = pd.DataFrame(chk03_01,columns=(['Client Division Scheme','Study','Environment','First Name','Last Name','Email','Phone #',
+                #                                                'Platform Role','Assignment Status','Location','Study Environment Site Number','Assignment',
+                #                                                'Review Result/Comment/Action']))
                     
-                # get error count
-                chk03_01_sumError = len(chk03_01)
+                # # get error count
+                # chk03_01_sumError = len(chk03_01)
                 
-                # Check03 Merge
-                # check03_merge into concat
-                chk03_01.fillna('99x083x', inplace = True)    
-                # 20220811 debugging
-                # add astype(str), otherwise procedure failure
-                #chk03_01.loc[:,'ID'] = chk03_01['Client Division Scheme'] + '_' + chk03_01['Study'] + '_' + chk03_01['Environment'] + '_' + chk03_01['First Name'] + '_' + chk03_01['Last Name'] + '_' + chk03_01['Email'] + '_' + chk03_01['Phone #'] + '_' + chk03_01['Platform Role']  + '_' + chk03_01['Assignment Status']  + '_' + chk03_01['Location']  + '_' + chk03_01['Study Environment Site Number']   
-                chk03_01['ID'] = chk03_01['Client Division Scheme'].astype(str) + '_' + chk03_01['Study'].astype(str) + '_' + chk03_01['Environment'].astype(str) + '_' + chk03_01['First Name'].astype(str) + '_' + chk03_01['Last Name'].astype(str) + '_' + chk03_01['Email'].astype(str) + '_' + chk03_01['Phone #'].astype(str) + '_' + chk03_01['Platform Role'].astype(str)  + '_' + chk03_01['Assignment Status'].astype(str)  + '_' + chk03_01['Location'].astype(str)  + '_' + chk03_01['Study Environment Site Number'].astype(str)                                                     
-                chk03_01 = chk03_01.rename(columns={'Assignment':'Assignment_chk03','Review Result/Comment/Action':'Check03'})
-                chk03_01 = pd.DataFrame(chk03_01,columns=(['ID','Assignment_chk03','Check03']))          
-                concat.fillna('99x083x', inplace = True)
-                # 20220811 debugging
-                # add astype(str), otherwise procedure failure
-                #concat['ID'] = concat['Client Division Scheme'] + '_' + concat['Study'] + '_' + concat['Environment'] + '_' + concat['First Name'] + '_' + concat['Last Name'] + '_' + concat['Email'] + '_' + concat['Phone #'] + '_' + concat['Platform Role']  + '_' + concat['Assignment Status']  + '_' + concat['Location']  + '_' + concat['Study Environment Site Number']
-                concat['ID'] = concat['Client Division Scheme'].astype(str) + '_' + concat['Study'].astype(str) + '_' + concat['Environment'].astype(str) + '_' + concat['First Name'].astype(str) + '_' + concat['Last Name'].astype(str) + '_' + concat['Email'].astype(str) + '_' + concat['Phone #'].astype(str) + '_' + concat['Platform Role'].astype(str)  + '_' + concat['Assignment Status'].astype(str)  + '_' + concat['Location'].astype(str)  + '_' + concat['Study Environment Site Number'].astype(str)
-                concat_chk03 = pd.merge(concat,chk03_01,how='left',on='ID')
-                #concat_chk03.to_excel(path + r'\concat_chk03.xlsx',index=False)
+                # # Check03 Merge
+                # # check03_merge into concat
+                # chk03_01.fillna('99x083x', inplace = True)    
+                # # 20220811 debugging
+                # # add astype(str), otherwise procedure failure
+                # #chk03_01.loc[:,'ID'] = chk03_01['Client Division Scheme'] + '_' + chk03_01['Study'] + '_' + chk03_01['Environment'] + '_' + chk03_01['First Name'] + '_' + chk03_01['Last Name'] + '_' + chk03_01['Email'] + '_' + chk03_01['Phone #'] + '_' + chk03_01['Platform Role']  + '_' + chk03_01['Assignment Status']  + '_' + chk03_01['Location']  + '_' + chk03_01['Study Environment Site Number']   
+                # chk03_01['ID'] = chk03_01['Client Division Scheme'].astype(str) + '_' + chk03_01['Study'].astype(str) + '_' + chk03_01['Environment'].astype(str) + '_' + chk03_01['First Name'].astype(str) + '_' + chk03_01['Last Name'].astype(str) + '_' + chk03_01['Email'].astype(str) + '_' + chk03_01['Phone #'].astype(str) + '_' + chk03_01['Platform Role'].astype(str)  + '_' + chk03_01['Assignment Status'].astype(str)  + '_' + chk03_01['Location'].astype(str)  + '_' + chk03_01['Study Environment Site Number'].astype(str)                                                     
+                # chk03_01 = chk03_01.rename(columns={'Assignment':'Assignment_chk03','Review Result/Comment/Action':'Check03'})
+                # chk03_01 = pd.DataFrame(chk03_01,columns=(['ID','Assignment_chk03','Check03']))          
+                # concat.fillna('99x083x', inplace = True)
+                # # 20220811 debugging
+                # # add astype(str), otherwise procedure failure
+                # #concat['ID'] = concat['Client Division Scheme'] + '_' + concat['Study'] + '_' + concat['Environment'] + '_' + concat['First Name'] + '_' + concat['Last Name'] + '_' + concat['Email'] + '_' + concat['Phone #'] + '_' + concat['Platform Role']  + '_' + concat['Assignment Status']  + '_' + concat['Location']  + '_' + concat['Study Environment Site Number']
+                # concat['ID'] = concat['Client Division Scheme'].astype(str) + '_' + concat['Study'].astype(str) + '_' + concat['Environment'].astype(str) + '_' + concat['First Name'].astype(str) + '_' + concat['Last Name'].astype(str) + '_' + concat['Email'].astype(str) + '_' + concat['Phone #'].astype(str) + '_' + concat['Platform Role'].astype(str)  + '_' + concat['Assignment Status'].astype(str)  + '_' + concat['Location'].astype(str)  + '_' + concat['Study Environment Site Number'].astype(str)
+                # concat_chk03 = pd.merge(concat,chk03_01,how='left',on='ID')
+                # #concat_chk03.to_excel(path + r'\concat_chk03.xlsx',index=False)
                 
                            
-                # Create a writer for concat_chk03
-                writer_concat_chk03 = pd.ExcelWriter('concat_chk03.xlsx', engine='openpyxl')
-                concat_chk03.to_excel(writer_concat_chk03, index=False)                
-                writer_concat_chk03.save()                
-                # Add a new worksheet as checklist
-                workbook = openpyxl.load_workbook('concat_chk03.xlsx')
-                new_sheet = workbook.create_sheet('Checklist')
-                # Write in checklist
-                new_sheet['A1'] = 'Checkpoint'
-                new_sheet['A2'] = 'Check03'
-                new_sheet['B1'] = 'Description'
-                new_sheet['B2'] = '"Assignment status" column has been reviewed and proper reminders have been sent to EDC Admin or users (if any).'
-                new_sheet['C1'] = 'Pass/Fail'
+                # # Create a writer for concat_chk03
+                # writer_concat_chk03 = pd.ExcelWriter('concat_chk03.xlsx', engine='openpyxl')
+                # concat_chk03.to_excel(writer_concat_chk03, index=False)                
+                # writer_concat_chk03.save()                
+                # # Add a new worksheet as checklist
+                # workbook = openpyxl.load_workbook('concat_chk03.xlsx')
+                # new_sheet = workbook.create_sheet('Checklist')
+                # # Write in checklist
+                # new_sheet['A1'] = 'Checkpoint'
+                # new_sheet['A2'] = 'Check03'
+                # new_sheet['B1'] = 'Description'
+                # new_sheet['B2'] = '"Assignment status" column has been reviewed and proper reminders have been sent to EDC Admin or users (if any).'
+                # new_sheet['C1'] = 'Pass/Fail'
                 
-                def PassOrFail2(sumError, cell):
-                    if sumError == 0:
-                        new_sheet[cell] = "Pass"
-                    else:
-                        #sheet_schedule.write(cell, 'Fail' + '(' + str(sumErr) + ')')  
-                        new_sheet[cell] = "Fail" + "(" + str(sumError) + ")"
+                # def PassOrFail2(sumError, cell):
+                #     if sumError == 0:
+                #         new_sheet[cell] = "Pass"
+                #     else:
+                #         #sheet_schedule.write(cell, 'Fail' + '(' + str(sumErr) + ')')  
+                #         new_sheet[cell] = "Fail" + "(" + str(sumError) + ")"
                 
-                PassOrFail2(chk03_01_sumError, "C2")
-                # Save the changes to the file
-                workbook.save('concat_chk03.xlsx')                    
-                # Add the filtered data to the zip file
-                output_concat_chk03 = f"{file.name.split('.')[0]}_result.xlsx"
-                with open('concat_chk03.xlsx', 'rb') as f:
-                    data = f.read()
-                    zip_file.writestr(output_concat_chk03, data)
+                # PassOrFail2(chk03_01_sumError, "C2")
+                # # Save the changes to the file
+                # workbook.save('concat_chk03.xlsx')                    
+                # # Add the filtered data to the zip file
+                # output_concat_chk03 = f"{file.name.split('.')[0]}_result.xlsx"
+                # with open('concat_chk03.xlsx', 'rb') as f:
+                #     data = f.read()
+                #     zip_file.writestr(output_concat_chk03, data)
                     
                     
                     
