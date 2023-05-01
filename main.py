@@ -68,6 +68,8 @@ def generate_reports(uploaded_files):
                 for col, values in df.iteritems():
                     if 'Unnamed' in col:
                         df = df.drop(columns=col)
+                # remove any empty rows
+                df = df.dropna(how='all')
                 #Method            
                 def NoNeedReview(x, y):
                     if '@mdsol.com' in str(x):
@@ -84,8 +86,6 @@ def generate_reports(uploaded_files):
                 df_row = df['Assignment'] != 'no need to review'
                 df_flter = df.loc[df_row,:]
                 df_flter = df_flter.drop(columns = ['Assignment'])
-                # remove empty row
-                df_flter = df_flter.dropna(how='all')
                 # Save the filtered data to a new Excel file
                 writer_df_flter = pd.ExcelWriter('review_01.xlsx', engine='openpyxl')
                 df_flter.to_excel(writer_df_flter, sheet_name='Sheet1', index=False)
