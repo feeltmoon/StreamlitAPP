@@ -162,15 +162,17 @@ def generate_reports(uploaded_files):
                                                        'Phone #','Platform Role','Assignment Status','Location','Study Environment Site Number',
                                                        'Assignment_pri','Assignment_rev02','Review02']))
                 
-                # # Save the data to a new Excel file
-                # writer_concat = pd.ExcelWriter('concat.xlsx', engine='openpyxl')
-                # df_flter.to_excel(writer_concat, index=False)
-                # writer_concat.save()
-                # # Add the filtered data to the zip file
-                # output_concat_name = f"{file.name.split('.')[0]}_concat.xlsx"
-                # with open('review_01.xlsx', 'rb') as f:
-                #     data = f.read()
-                #     zip_file.writestr(output_df_flter_name, data)
+                
+                # debug output
+                # Save the data to a new Excel file
+                writer_concat = pd.ExcelWriter('concat.xlsx', engine='openpyxl')
+                concat.to_excel(writer_concat, index=False)
+                writer_concat.save()
+                # Add the filtered data to the zip file
+                output_concat_name = f"{file.name.split('.')[0]}_concat.xlsx"
+                with open('concat.xlsx', 'rb') as f:
+                    data = f.read()
+                    zip_file.writestr(output_df_flter_name, data)
                 
                 #**************************Check 03*********************************
                 chk03 = df_flter.copy()
@@ -238,19 +240,11 @@ def generate_reports(uploaded_files):
                 concat_chk03 = pd.merge(concat,chk03_01,how='left',on='ID')
                 #concat_chk03.to_excel(path + r'\concat_chk03.xlsx',index=False)
                 
-                # SUM ERROR   
-                # chk03_01_agg = pd.DataFrame(chk03_01,columns=(['Study','Review Result/Comment/Action']))
-                # chk03_01_sumError = chk03_01_agg.groupby(['Study'])['Review Result/Comment/Action'].count().reset_index()
-                #chk03_01_sumError.to_excel(path + r'\chk03_sumError.xlsx',index=False)
-                #wb_chk03 = openpyxl.load_workbook(path + r'\chk03_sumError.xlsx')
-                #ws_chk03 = wb_chk03['Sheet1']
-                #cellvalue_chk03 = ws_chk03['B2'].value
-                             
+                           
                 # Create a writer for concat_chk03
                 writer_concat_chk03 = pd.ExcelWriter('concat_chk03.xlsx', engine='openpyxl')
                 concat_chk03.to_excel(writer_concat_chk03, index=False)                
-                writer_concat_chk03.save()
-                
+                writer_concat_chk03.save()                
                 # Add a new worksheet as checklist
                 workbook = openpyxl.load_workbook('concat_chk03.xlsx')
                 new_sheet = workbook.create_sheet('Checklist')
@@ -268,10 +262,9 @@ def generate_reports(uploaded_files):
                         #sheet_schedule.write(cell, 'Fail' + '(' + str(sumErr) + ')')  
                         new_sheet[cell] = "Fail" + "(" + str(sumError) + ")"
                 
-                PassOrFail2(chk03_01_sumError, "C3")
+                PassOrFail2(chk03_01_sumError, "C2")
                 # Save the changes to the file
-                workbook.save('concat_chk03.xlsx')    
-                
+                workbook.save('concat_chk03.xlsx')                    
                 # Add the filtered data to the zip file
                 output_concat_chk03 = f"{file.name.split('.')[0]}_result.xlsx"
                 with open('concat_chk03.xlsx', 'rb') as f:
