@@ -221,59 +221,59 @@ def generate_reports(uploaded_files):
                     chk03_01 = pd.DataFrame(chk03_01,columns=(['Client Division Scheme','Study','Environment','First Name','Last Name','Email','Phone #',
                                                                 'Platform Role','Assignment Status','Location','Study Environment Site Number','Assignment',
                                                                 'Review Result/Comment/Action']))
-                    
-                # get error count
-                st.write(chk03_01)
-                chk03_01_sumError = len(chk03_01)
-                st.write(str(len(chk03_01)))
                 
-                # # Check03 Merge
-                # # check03_merge into concat
-                # chk03_01.fillna('99x083x', inplace = True)    
-                # # 20220811 debugging
-                # # add astype(str), otherwise procedure failure
-                # #chk03_01.loc[:,'ID'] = chk03_01['Client Division Scheme'] + '_' + chk03_01['Study'] + '_' + chk03_01['Environment'] + '_' + chk03_01['First Name'] + '_' + chk03_01['Last Name'] + '_' + chk03_01['Email'] + '_' + chk03_01['Phone #'] + '_' + chk03_01['Platform Role']  + '_' + chk03_01['Assignment Status']  + '_' + chk03_01['Location']  + '_' + chk03_01['Study Environment Site Number']   
-                # chk03_01['ID'] = chk03_01['Client Division Scheme'].astype(str) + '_' + chk03_01['Study'].astype(str) + '_' + chk03_01['Environment'].astype(str) + '_' + chk03_01['First Name'].astype(str) + '_' + chk03_01['Last Name'].astype(str) + '_' + chk03_01['Email'].astype(str) + '_' + chk03_01['Phone #'].astype(str) + '_' + chk03_01['Platform Role'].astype(str)  + '_' + chk03_01['Assignment Status'].astype(str)  + '_' + chk03_01['Location'].astype(str)  + '_' + chk03_01['Study Environment Site Number'].astype(str)                                                     
-                # chk03_01 = chk03_01.rename(columns={'Assignment':'Assignment_chk03','Review Result/Comment/Action':'Check03'})
-                # chk03_01 = pd.DataFrame(chk03_01,columns=(['ID','Assignment_chk03','Check03']))          
-                # concat.fillna('99x083x', inplace = True)
-                # # 20220811 debugging
-                # # add astype(str), otherwise procedure failure
-                # #concat['ID'] = concat['Client Division Scheme'] + '_' + concat['Study'] + '_' + concat['Environment'] + '_' + concat['First Name'] + '_' + concat['Last Name'] + '_' + concat['Email'] + '_' + concat['Phone #'] + '_' + concat['Platform Role']  + '_' + concat['Assignment Status']  + '_' + concat['Location']  + '_' + concat['Study Environment Site Number']
-                # concat['ID'] = concat['Client Division Scheme'].astype(str) + '_' + concat['Study'].astype(str) + '_' + concat['Environment'].astype(str) + '_' + concat['First Name'].astype(str) + '_' + concat['Last Name'].astype(str) + '_' + concat['Email'].astype(str) + '_' + concat['Phone #'].astype(str) + '_' + concat['Platform Role'].astype(str)  + '_' + concat['Assignment Status'].astype(str)  + '_' + concat['Location'].astype(str)  + '_' + concat['Study Environment Site Number'].astype(str)
-                # concat_chk03 = pd.merge(concat,chk03_01,how='left',on='ID')
-                # #concat_chk03.to_excel(path + r'\concat_chk03.xlsx',index=False)
+                # get error count
+                #st.write(chk03_01)
+                chk03_01_sumError = len(chk03_01)
+                #st.write(str(len(chk03_01)))
+                
+                # Check03 Merge
+                # check03_merge into concat
+                chk03_01.fillna('99x083x', inplace = True)    
+                # 20220811 debugging
+                # add astype(str), otherwise procedure failure
+                #chk03_01.loc[:,'ID'] = chk03_01['Client Division Scheme'] + '_' + chk03_01['Study'] + '_' + chk03_01['Environment'] + '_' + chk03_01['First Name'] + '_' + chk03_01['Last Name'] + '_' + chk03_01['Email'] + '_' + chk03_01['Phone #'] + '_' + chk03_01['Platform Role']  + '_' + chk03_01['Assignment Status']  + '_' + chk03_01['Location']  + '_' + chk03_01['Study Environment Site Number']   
+                chk03_01['ID'] = chk03_01['Client Division Scheme'].astype(str) + '_' + chk03_01['Study'].astype(str) + '_' + chk03_01['Environment'].astype(str) + '_' + chk03_01['First Name'].astype(str) + '_' + chk03_01['Last Name'].astype(str) + '_' + chk03_01['Email'].astype(str) + '_' + chk03_01['Phone #'].astype(str) + '_' + chk03_01['Platform Role'].astype(str)  + '_' + chk03_01['Assignment Status'].astype(str)  + '_' + chk03_01['Location'].astype(str)  + '_' + chk03_01['Study Environment Site Number'].astype(str)                                                     
+                chk03_01 = chk03_01.rename(columns={'Assignment':'Assignment_chk03','Review Result/Comment/Action':'Check03'})
+                chk03_01 = pd.DataFrame(chk03_01,columns=(['ID','Assignment_chk03','Check03']))          
+                concat.fillna('99x083x', inplace = True)
+                # 20220811 debugging
+                # add astype(str), otherwise procedure failure
+                #concat['ID'] = concat['Client Division Scheme'] + '_' + concat['Study'] + '_' + concat['Environment'] + '_' + concat['First Name'] + '_' + concat['Last Name'] + '_' + concat['Email'] + '_' + concat['Phone #'] + '_' + concat['Platform Role']  + '_' + concat['Assignment Status']  + '_' + concat['Location']  + '_' + concat['Study Environment Site Number']
+                concat['ID'] = concat['Client Division Scheme'].astype(str) + '_' + concat['Study'].astype(str) + '_' + concat['Environment'].astype(str) + '_' + concat['First Name'].astype(str) + '_' + concat['Last Name'].astype(str) + '_' + concat['Email'].astype(str) + '_' + concat['Phone #'].astype(str) + '_' + concat['Platform Role'].astype(str)  + '_' + concat['Assignment Status'].astype(str)  + '_' + concat['Location'].astype(str)  + '_' + concat['Study Environment Site Number'].astype(str)
+                concat_chk03 = pd.merge(concat,chk03_01,how='left',on='ID')
+                #concat_chk03.to_excel(path + r'\concat_chk03.xlsx',index=False)
                 
                            
-                # # Create a writer for concat_chk03
-                # writer_concat_chk03 = pd.ExcelWriter('concat_chk03.xlsx', engine='openpyxl')
-                # concat_chk03.to_excel(writer_concat_chk03, index=False)                
-                # writer_concat_chk03.save()                
-                # # Add a new worksheet as checklist
-                # workbook = openpyxl.load_workbook('concat_chk03.xlsx')
-                # new_sheet = workbook.create_sheet('Checklist')
-                # # Write in checklist
-                # new_sheet['A1'] = 'Checkpoint'
-                # new_sheet['A2'] = 'Check03'
-                # new_sheet['B1'] = 'Description'
-                # new_sheet['B2'] = '"Assignment status" column has been reviewed and proper reminders have been sent to EDC Admin or users (if any).'
-                # new_sheet['C1'] = 'Pass/Fail'
+                # Create a writer for concat_chk03
+                writer_concat_chk03 = pd.ExcelWriter('concat_chk03.xlsx', engine='openpyxl')
+                concat_chk03.to_excel(writer_concat_chk03, index=False)                
+                writer_concat_chk03.save()                
+                # Add a new worksheet as checklist
+                workbook = openpyxl.load_workbook('concat_chk03.xlsx')
+                new_sheet = workbook.create_sheet('Checklist')
+                # Write in checklist
+                new_sheet['A1'] = 'Checkpoint'
+                new_sheet['A2'] = 'Check03'
+                new_sheet['B1'] = 'Description'
+                new_sheet['B2'] = '"Assignment status" column has been reviewed and proper reminders have been sent to EDC Admin or users (if any).'
+                new_sheet['C1'] = 'Pass/Fail'
                 
-                # def PassOrFail2(sumError, cell):
-                #     if sumError == 0:
-                #         new_sheet[cell] = "Pass"
-                #     else:
-                #         #sheet_schedule.write(cell, 'Fail' + '(' + str(sumErr) + ')')  
-                #         new_sheet[cell] = "Fail" + "(" + str(sumError) + ")"
+                def PassOrFail2(sumError, cell):
+                    if sumError == 0:
+                        new_sheet[cell] = "Pass"
+                    else:
+                        #sheet_schedule.write(cell, 'Fail' + '(' + str(sumErr) + ')')  
+                        new_sheet[cell] = "Fail" + "(" + str(sumError) + ")"
                 
-                # PassOrFail2(chk03_01_sumError, "C2")
-                # # Save the changes to the file
-                # workbook.save('concat_chk03.xlsx')                    
-                # # Add the filtered data to the zip file
-                # output_concat_chk03 = f"{file.name.split('.')[0]}_result.xlsx"
-                # with open('concat_chk03.xlsx', 'rb') as f:
-                #     data = f.read()
-                #     zip_file.writestr(output_concat_chk03, data)
+                PassOrFail2(chk03_01_sumError, "C2")
+                # Save the changes to the file
+                workbook.save('concat_chk03.xlsx')                    
+                # Add the filtered data to the zip file
+                output_concat_chk03 = f"{file.name.split('.')[0]}_result.xlsx"
+                with open('concat_chk03.xlsx', 'rb') as f:
+                    data = f.read()
+                    zip_file.writestr(output_concat_chk03, data)
                     
                     
                     
