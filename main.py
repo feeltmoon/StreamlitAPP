@@ -58,7 +58,7 @@ def generate_reports(uploaded_files):
             st.write(df3)
             output_df3_name = f"{file_sugg_obj.name.split('.')[0]}_df3.xlsx"
             zip_file.writestr(output_df3_name, bytes_data)
-        #read access reports_multiple
+        #read each access reports_multiple
         for file in uploaded_files:
             bytes_data = file.read()
             #if file.endswith('.xlsx') and file.startswith('Quarterly Access Report'):
@@ -84,6 +84,8 @@ def generate_reports(uploaded_files):
                 df_row = df['Assignment'] != 'no need to review'
                 df_flter = df.loc[df_row,:]
                 df_flter = df_flter.drop(columns = ['Assignment'])
+                # remove empty row
+                df_flter = df_flter.dropna(how='all')
                 # Save the filtered data to a new Excel file
                 writer_df_flter = pd.ExcelWriter('review_01.xlsx', engine='openpyxl')
                 df_flter.to_excel(writer_df_flter, sheet_name='Sheet1', index=False)
