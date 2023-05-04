@@ -5,6 +5,7 @@ import zipfile
 import base64
 import openpyxl
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
+import time
 
 def find_file(filename, uploaded_files):
     for file in uploaded_files:
@@ -15,6 +16,9 @@ def find_file(filename, uploaded_files):
 def generate_reports(uploaded_files):
     
     if uploaded_files is not None:
+        #Progress Bar
+        progress_bar = st.progress(0)
+        
         zip_file = zipfile.ZipFile("data_download.zip", mode="w")
         
         #read df1
@@ -68,7 +72,8 @@ def generate_reports(uploaded_files):
             # output_df3_name = f"{file_sugg_obj.name.split('.')[0]}_df3.xlsx"
             # zip_file.writestr(output_df3_name, bytes_data)
         #read each access reports_multiple
-        for file in uploaded_files:
+        #for file in uploaded_files:
+        for i, file in enumerate(uploaded_files):
             bytes_data = file.read()
             #if file.endswith('.xlsx') and file.startswith('Quarterly Access Report'):
             if "Quarterly Access Report" in file.name:
@@ -797,7 +802,9 @@ def generate_reports(uploaded_files):
                     zip_file.writestr(concat_final, data)
                 # ------------------------------------ADD TO ZIP FILE--------------------------------------------
                 
-                                                                    
+        # progress bar
+        progress_bar.progress((i + 1) / len(uploaded_files))
+        
         zip_file.close()
         
         
