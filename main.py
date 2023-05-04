@@ -4,7 +4,7 @@ import io
 import zipfile
 import base64
 import openpyxl
-
+from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
 
 def find_file(filename, uploaded_files):
     for file in uploaded_files:
@@ -564,11 +564,7 @@ def generate_reports(uploaded_files):
                 concat_final = concat_final.replace('99x083x','')      
                 # ===============Final Clean================
                 
-                
-                
-                
-                
-                
+                                
                 # ------------------------------------Test for creating checklist------------------------------------
                 # Create a writer for concat_final
                 writer_concat_final = pd.ExcelWriter('concat_final.xlsx', engine='openpyxl')
@@ -613,11 +609,11 @@ def generate_reports(uploaded_files):
                         new_sheet[cell] = "Fail" + "(" + str(sumError) + ")"
                 
                 def PassOrFail1(cell, sumErr1, sumErr2):
-                    if sumErr1 is None and sumErr2 is None:
+                    if sumErr1 == 0 and sumErr2 == 0:
                         new_sheet[cell] = "Pass"
-                    elif sumErr1 is not None and sumErr2 is None:
+                    elif sumErr1 != 0 and sumErr2 == 0:
                         new_sheet[cell] = "Fail" + "(" + str(sumErr1) + ")"
-                    elif sumErr1 is None and sumErr2 is not None:  
+                    elif sumErr1 == 0 and sumErr2 != 0:  
                         new_sheet[cell] = "Fail" + "(" + str(sumErr2) + ")"
                 
                 PassOrFail2(chk03_01_sumError, "C2")
@@ -628,20 +624,171 @@ def generate_reports(uploaded_files):
                 PassOrFail2(chk08_sumError, "C7")
                 PassOrFail2(chk09_sumError, "C8")              
                 # Save the changes to the file
-                workbook.save('concat_final.xlsx')                    
+                workbook.save('concat_final.xlsx')
+                # ------------------------------------Test for creating checklist------------------------------------
+                
+                
+                # ------------------------------------Formatting--------------------------------------------
+                # Formatting:
+                wb = openpyxl.load_workbook('concat_final.xlsx')
+                # Formatting:
+                # body_font
+                GLOBAL_TITLE_FONT = Font(name='Arial',
+                                         size=10,
+                                         bold=False,
+                                         italic=False,
+                                         vertAlign=None,
+                                         underline='none',
+                                         strike=False)
+                # title font
+                GLOBAL_TITLE_FONT1 = Font(name='Arial',
+                                          size=10,
+                                          bold=True,
+                                          italic=False,
+                                          vertAlign=None,
+                                          underline='none',
+                                          strike=False)
+                
+                BORDER = Border(left=Side(border_style='thin',
+                                           color='00969696'),
+                                 right=Side(border_style='thin',
+                                            color='00969696'),
+                                 top=Side(border_style='thin',
+                                          color='00969696'),
+                                 bottom=Side(border_style='thin',
+                                             color='00969696'),
+                                 diagonal=Side(border_style='thin',
+                                               color='00969696'),
+                                 diagonal_direction=0,
+                                 outline=Side(border_style='thin',
+                                              color='00969696'),
+                                 vertical=Side(border_style='thin',
+                                               color='00969696'),
+                                 horizontal=Side(border_style='thin',
+                                                color='00969696')
+                                )
+                
+                ALIGNHMENT = Alignment(horizontal='left',
+                                       vertical='top',
+                                       text_rotation=0,
+                                       wrap_text=True,
+                                       shrink_to_fit=False,
+                                       indent=0)
+                
+                ALIGNHMENT_HEADER = Alignment(horizontal='center',
+                                       vertical='top',
+                                       text_rotation=0,
+                                       wrap_text=True,
+                                       shrink_to_fit=False,
+                                       indent=0)
+                
+                # assign formatting to cells in each row except for header row
+                def body_font(ws):
+                    for i, row in enumerate(ws.iter_rows()):                              
+                        if i == 0:                                                                              
+                            continue
+                        for cell in row:                                                  
+                            cell.font = GLOBAL_TITLE_FONT
+                            cell.border = BORDER
+                            cell.alignment = ALIGNHMENT
+                            
+                # assign formatting to header row(bolder, border, background color)
+                def header_font(ws):
+                    for row in ws.iter_rows(min_row=1, max_row=1):
+                        for cell in row:
+                            cell.font = GLOBAL_TITLE_FONT1
+                            cell.border = BORDER
+                            cell.fill = PatternFill("solid", start_color="00FFFF99")
+                            cell.alignment = ALIGNHMENT_HEADER      
+                # auto-width
+                def auto_width(ws):
+                    for column_cells in ws.columns:
+                        length = max(len(str(cell.value)) for cell in column_cells)
+                        ws.column_dimensions[column_cells[0].column_letter].width = length
+                        
+                # Writing format
+                for ws in wb.worksheets:
+                    ws.auto_filter.ref = ws.dimensions
+                    body_font(ws)
+                    header_font(ws) # fastest
+                    auto_width(ws)
+                
+                # Manually formatting for each worksheet
+                # Checklist
+                wsChklist = wb['Checklist']    
+                wsChklist.column_dimensions['B'].width = 35
+                wsChklist.column_dimensions['C'].width = 35
+                
+                # Result
+                wsRes = wb['Result']
+                wsRes.column_dimensions['A'].width = 15 # Client Division Scheme
+                wsRes.column_dimensions['G'].width = 20 # Title
+                wsRes.column_dimensions['F'].width = 22 # Email
+                wsRes.column_dimensions['H'].width = 13 # Phone
+                wsRes.column_dimensions['I'].width = 22 # Platform Role
+                wsRes.column_dimensions['L'].width = 17 # Study Environment Site Number
+                wsRes.column_dimensions['M'].width = 30 # Assigment 
+                wsRes.column_dimensions['N'].width = 15 # Country
+                wsRes.column_dimensions['O'].width = 12 # Review02
+                wsRes.column_dimensions['P'].width = 20 # Check03
+                wsRes.column_dimensions['Q'].width = 20 # Check04
+                wsRes.column_dimensions['R'].width = 20 # Check05
+                wsRes.column_dimensions['S'].width = 20 # Check06
+                wsRes.column_dimensions['T'].width = 20 # Check07
+                wsRes.column_dimensions['U'].width = 20 # Check08
+                wsRes.column_dimensions['V'].width = 20 # Check10
+                for cell in wsRes['K']:
+                    cell.alignment = Alignment(vertical='top',horizontal='center',wrap_text=True)
+
+                #def getColorCell():
+                for cellx in wsChklist['C']:
+                    if cellx.value == 'Pass':
+                        cellx.fill = PatternFill(start_color='0055CCCC',end_color='0055CCCC',fill_type='solid')
+                        for row in wsRes.iter_rows(min_row=1, max_row=1):
+                            for celly in row:
+                                #if celly.value == 'Check08':
+                                if celly.value == wsChklist['A' + str(cellx.row)].value:
+                                    celly.fill = PatternFill(start_color='0055CCCC',end_color='0055CCCC',fill_type='solid')
+                
+                link1 = 'Result.xlsx#Result!P1'
+                wsChklist.cell(row=2, column=1).hyperlink = (link1)
+
+                link2 = 'Result.xlsx#Result!Q1'
+                wsChklist.cell(row=3, column=1).hyperlink = (link2)
+                
+                link3 = 'Result.xlsx#Result!R1'
+                wsChklist.cell(row=4, column=1).hyperlink = (link3)
+                
+                link4 = 'Result.xlsx#Result!S1'
+                wsChklist.cell(row=5, column=1).hyperlink = (link4)
+                
+                link5 = 'Result.xlsx#Result!T1'
+                wsChklist.cell(row=6, column=1).hyperlink = (link5)
+                
+                link6 = 'Result.xlsx#Result!U1'
+                wsChklist.cell(row=7, column=1).hyperlink = (link6)
+                
+                link7 = 'Result.xlsx#Result!V1'
+                wsChklist.cell(row=8, column=1).hyperlink = (link7)
+                                
+                # Saving
+                wb.save('concat_final.xlsx')
+                # ------------------------------------Formatting--------------------------------------------
+                
+
+                # ------------------------------------ADD TO ZIP FILE--------------------------------------------                    
                 # Add the filtered data to the zip file
                 concat_final = f"{file.name.split('.')[0]}_result.xlsx"
                 with open('concat_final.xlsx', 'rb') as f:
                     data = f.read()
                     zip_file.writestr(concat_final, data)
-                # ------------------------------------Test for creating checklist------------------------------------
-                    
-                    
-                                                
+                # ------------------------------------ADD TO ZIP FILE--------------------------------------------
+                
+                                                                    
         zip_file.close()
         
         
-        
+        # ------------------------------------GENERATE ZIP LINK--------------------------------------------
         #Generate download zip button
         with open("data_download.zip", "rb") as f:
             bytes = f.read()
