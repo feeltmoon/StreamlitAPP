@@ -16,10 +16,11 @@ def find_file(filename, uploaded_files):
 def generate_reports(uploaded_files):
     
     if uploaded_files is not None:
+       
+        zip_file = zipfile.ZipFile("data_download.zip", mode="w")
+        
         #Progress Bar
         progress_bar = st.progress(0)
-        
-        zip_file = zipfile.ZipFile("data_download.zip", mode="w")
         
         #read df1
         file_name_sugg = 'Medidata Rave EDC Roles Assignment and Quarterly Review Suggestions.xlsx'                                       
@@ -802,9 +803,9 @@ def generate_reports(uploaded_files):
                     zip_file.writestr(concat_final, data)
                 # ------------------------------------ADD TO ZIP FILE--------------------------------------------
                 
-        # progress bar
-        progress_bar.progress((i + 1) / len(uploaded_files))
-        
+                # Progress Bar
+                progress_bar.progress((i + 1) / len(uploaded_files))
+                
         zip_file.close()
         
         
