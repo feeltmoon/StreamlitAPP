@@ -269,7 +269,10 @@ def generate_reports(uploaded_files):
                 chk04_mrg = pd.merge(chk04,agg,how='left',on=['Full_Name','Platform Role', 'Study Environment Site Number'])    
                 chk04_mrg = chk04_mrg.loc[~chk04_mrg['Email_y'].isna(),:]
                 chk04_msk = chk04_mrg['Email_y'] > 1
-                chk04_mrg.loc[chk04_msk,'Review Result/Comment/Action'] = 'User has more than 1 EDC account in this study, please check and only keep one.'
+                chk04_mrg.loc[chk04_msk,'Review Result/Comment/Action'] = 'User has more than 1 EDC account in this study, please check and only keep one.'              
+                # GET SUM ERROR
+                chk04_sumError = chk04_mrg.loc[chk04_mrg['Review Result/Comment/Action'] == "User has more than 1 EDC account in this study, please check and only keep one.",:]
+                len(chk04_sumError)           
                 def chk04_Classify(x,y,z):
                     if x == 'IxRS - Investigator' or x == 'Investigator' or x == 'IxRS - Sub-I' or x == 'Sub-I' or x == 'IxRS - Clinical Research Coordinator' or x == 'Clinical Research Coordinator' or x == 'Data Entry':
                         return 'ACOM/PMA/CTA/Regional designee'
@@ -287,9 +290,9 @@ def generate_reports(uploaded_files):
                 chk04_mrg.loc[chk04_msk_01,'Assignment'] = chk04_mrg.apply(lambda x: chk04_Classify(x['Platform Role'],x['Email_x'],x['Location']), axis=1)
                 chk04_mrg = chk04_mrg.drop(columns='Email_y')
                 chk04_mrg = chk04_mrg.rename(columns={'Email_x':'Email'})
-                st.write(chk04_mrg)
-                # GET SUM ERROR
-                chk04_sumError = len(chk04_mrg)
+                #st.write(chk04_mrg)
+                # # GET SUM ERROR
+                # chk04_sumError = len(chk04_mrg)
                 # MERGE chk04_mrg into concat
                 chk04_mrg.fillna('99x083x', inplace = True)
                 # 20220811 debugging
@@ -303,6 +306,7 @@ def generate_reports(uploaded_files):
                 # praveen found issues: duplicate row in source report
                 # remove duplicated rows
                 concat_chk03_04 = concat_chk03_04.drop_duplicates()
+                
                 #****************************************************Check 04*****************************************************************
                 
                 
