@@ -603,7 +603,14 @@ def generate_reports(uploaded_files):
                 new_sheet['C6'] = ''
                 new_sheet['C7'] = ''
                 new_sheet['C8'] = ''
-                              
+                
+                # Add hyperlinks to the Checklist sheet
+                for row in range(2, 9):
+                    cell_coord = f"A{row}"
+                    hyperlink = f"'Result'!{cell_coord}"
+                    new_sheet[f"A{row}"].hyperlink = hyperlink
+                
+                
                 def PassOrFail2(sumError, cell):
                     if sumError == 0:
                         new_sheet[cell] = "Pass"
@@ -753,27 +760,27 @@ def generate_reports(uploaded_files):
                                 if celly.value == wsChklist['A' + str(cellx.row)].value:
                                     celly.fill = PatternFill(start_color='0055CCCC',end_color='0055CCCC',fill_type='solid')
                 
-                # #link1 = 'concat_final.xlsx#Result!P1'
-                link1 = "Result!P1"
-                wsChklist.cell(row=2, column=1).hyperlink = (link1)
+                # # #link1 = 'concat_final.xlsx#Result!P1'
+                # link1 = "Result!P1"
+                # wsChklist.cell(row=2, column=1).hyperlink = (link1)
 
-                link2 = "Result!Q1"
-                wsChklist.cell(row=3, column=1).hyperlink = (link2)
+                # link2 = "Result!Q1"
+                # wsChklist.cell(row=3, column=1).hyperlink = (link2)
                 
-                link3 = "Result!R1"
-                wsChklist.cell(row=4, column=1).hyperlink = (link3)
+                # link3 = "Result!R1"
+                # wsChklist.cell(row=4, column=1).hyperlink = (link3)
                 
-                link4 = "Result!S1"
-                wsChklist.cell(row=5, column=1).hyperlink = (link4)
+                # link4 = "Result!S1"
+                # wsChklist.cell(row=5, column=1).hyperlink = (link4)
                 
-                link5 = "#Result!T1"
-                wsChklist.cell(row=6, column=1).hyperlink = (link5)
+                # link5 = "#Result!T1"
+                # wsChklist.cell(row=6, column=1).hyperlink = (link5)
                 
-                link6 = "#Result!U1"
-                wsChklist.cell(row=7, column=1).hyperlink = (link6)
+                # link6 = "#Result!U1"
+                # wsChklist.cell(row=7, column=1).hyperlink = (link6)
                 
-                link7 = "Result!V1"
-                wsChklist.cell(row=8, column=1).hyperlink = (link7)
+                # link7 = "Result!V1"
+                # wsChklist.cell(row=8, column=1).hyperlink = (link7)
                                 
                 # Saving
                 wb.save('concat_final.xlsx')
