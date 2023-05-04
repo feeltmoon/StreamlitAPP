@@ -287,6 +287,7 @@ def generate_reports(uploaded_files):
                 chk04_mrg.loc[chk04_msk_01,'Assignment'] = chk04_mrg.apply(lambda x: chk04_Classify(x['Platform Role'],x['Email_x'],x['Location']), axis=1)
                 chk04_mrg = chk04_mrg.drop(columns='Email_y')
                 chk04_mrg = chk04_mrg.rename(columns={'Email_x':'Email'})
+                st.write(chk04_mrg)
                 # GET SUM ERROR
                 chk04_sumError = len(chk04_mrg)
                 # MERGE chk04_mrg into concat
