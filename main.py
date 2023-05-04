@@ -558,7 +558,7 @@ def generate_reports(uploaded_files):
                 # ------------------------------------Test for creating checklist------------------------------------
                 # Create a writer for concat_final
                 writer_concat_final = pd.ExcelWriter('concat_final.xlsx', engine='openpyxl')
-                writer_concat_final.to_excel(writer_concat_final, index=False)                
+                concat_final.to_excel(writer_concat_final, index=False)                
                 writer_concat_final.save()                
                 # Add a new worksheet as checklist
                 workbook = openpyxl.load_workbook('concat_final.xlsx')
