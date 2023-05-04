@@ -607,7 +607,7 @@ def generate_reports(uploaded_files):
                 # Add hyperlinks to the Checklist sheet
                 for row in range(2, 9):
                     cell_coord = f"A{row}"
-                    hyperlink = f"{file.name.split('.')[0]}_result.xlsx" +"#" + f"Result'!{cell_coord}"
+                    hyperlink = f"{file.name.split('.')[0]}_result.xlsx" +"#" + f"Result!{cell_coord}"
                     #A + B(Result!C2)
                     new_sheet[f"A{row}"].hyperlink = hyperlink
                 
