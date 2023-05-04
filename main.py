@@ -28,18 +28,24 @@ def generate_reports(uploaded_files):
             df1['Role'] = df1['Role'].apply(lambda x: x.split('/')).explode().reset_index(drop=True)                
             df1['Role'] = df1['Role'].str.lstrip()
             df1['Role'] = df1['Role'].str.rstrip()
-            st.write(df1)          
-            output_df1_name = f"{file_sugg_obj.name.split('.')[0]}_df1.xlsx"          
-            zip_file.writestr(output_df1_name, bytes_data)
+            #Title
+            st.title("Live Contact List - Other")
+            st.write(df1)
+            # # add to zip file
+            # output_df1_name = f"{file_sugg_obj.name.split('.')[0]}_df1.xlsx"          
+            # zip_file.writestr(output_df1_name, bytes_data)
             #read df2
             df2 = pd.read_excel(io.BytesIO(bytes_data),sheet_name='Country Codes',usecols=['Country/Region Name','6 Digit Code'],engine='openpyxl')
             df2 = df2.loc[~df2['Country/Region Name'].isna(),:]
             df2['Code_Sub'] = df2['6 Digit Code'].str[:3]
             df2 = df2.drop_duplicates(subset='Code_Sub',keep='last')
             df2 = df2.drop(columns='6 Digit Code')
+            #Title
+            st.title("Country Codes")
             st.write(df2)
-            output_df2_name = f"{file_sugg_obj.name.split('.')[0]}_df2.xlsx"
-            zip_file.writestr(output_df2_name, bytes_data)
+            # # add to zip file
+            # output_df2_name = f"{file_sugg_obj.name.split('.')[0]}_df2.xlsx"
+            # zip_file.writestr(output_df2_name, bytes_data)
         #read df3
         file_name_nmlst = 'Name List.xlsx'
         file_nmlst_obj = find_file(file_name_nmlst,uploaded_files)    
@@ -55,9 +61,12 @@ def generate_reports(uploaded_files):
             df3.loc[:,'Email_Upper'] = df3.loc[:,'Email']
             df3.loc[:,'Email_Upper'] = df3.apply(lambda x: x.str.upper())
             df3 = df3.drop(columns='Email')
+            #Title
+            st.title("Name List")
             st.write(df3)
-            output_df3_name = f"{file_sugg_obj.name.split('.')[0]}_df3.xlsx"
-            zip_file.writestr(output_df3_name, bytes_data)
+            # # add to zip file
+            # output_df3_name = f"{file_sugg_obj.name.split('.')[0]}_df3.xlsx"
+            # zip_file.writestr(output_df3_name, bytes_data)
         #read each access reports_multiple
         for file in uploaded_files:
             bytes_data = file.read()
@@ -86,16 +95,16 @@ def generate_reports(uploaded_files):
                 df_row = df['Assignment'] != 'no need to review'
                 df_flter = df.loc[df_row,:]
                 df_flter = df_flter.drop(columns = ['Assignment'])
-                # ADD TO ZIP FILE
-                # Save the filtered data to a new Excel file
-                writer_df_flter = pd.ExcelWriter('review_01.xlsx', engine='openpyxl')
-                df_flter.to_excel(writer_df_flter, sheet_name='Sheet1', index=False)
-                writer_df_flter.save()
-                # Add the filtered data to the zip file
-                output_df_flter_name = f"{file.name.split('.')[0]}_review01.xlsx"
-                with open('review_01.xlsx', 'rb') as f:
-                    data = f.read()
-                    zip_file.writestr(output_df_flter_name, data)
+                # # ADD TO ZIP FILE
+                # # Save the filtered data to a new Excel file
+                # writer_df_flter = pd.ExcelWriter('review_01.xlsx', engine='openpyxl')
+                # df_flter.to_excel(writer_df_flter, sheet_name='Sheet1', index=False)
+                # writer_df_flter.save()
+                # # Add the filtered data to the zip file
+                # output_df_flter_name = f"{file.name.split('.')[0]}_review01.xlsx"
+                # with open('review_01.xlsx', 'rb') as f:
+                #     data = f.read()
+                #     zip_file.writestr(output_df_flter_name, data)
                 
                 #*************************Review02**************************
                 revw02 = df_flter.copy()
