@@ -16,9 +16,11 @@ def find_file(filename, uploaded_files):
 def generate_reports(uploaded_files):
     
     if uploaded_files is not None:
-       
-        zip_file = zipfile.ZipFile("data_download.zip", mode="w")
         
+        # Tell user that all the files are uploaded into streamlit.io
+        st.write("All the files have been uploaded successfully.") 
+        # create a zip file pack
+        zip_file = zipfile.ZipFile("data_download.zip", mode="w")      
         #Progress Bar
         progress_text = "Operation in progress. Please wait."
         progress_bar = st.progress(0,text=progress_text)
@@ -805,7 +807,7 @@ def generate_reports(uploaded_files):
                 # ------------------------------------ADD TO ZIP FILE--------------------------------------------
                 
                 # Progress Bar
-                progress_bar.progress((i + 1) / len(uploaded_files))
+                progress_bar.progress((i + 1) / len(uploaded_files),text=progress_text)
                 
         zip_file.close()
         
