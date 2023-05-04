@@ -24,7 +24,7 @@ def generate_reports(uploaded_files):
         #Progress Bar
         progress_text = "Operation in progress. Please wait."
         progress_bar = st.progress(0,text=progress_text)
-        
+        status_container = st.empty()
         #read df1
         file_name_sugg = 'Medidata Rave EDC Roles Assignment and Quarterly Review Suggestions.xlsx'                                       
         file_sugg_obj = find_file(file_name_sugg,uploaded_files)      
@@ -810,7 +810,7 @@ def generate_reports(uploaded_files):
                 progress_bar.progress((i + 1) / len(uploaded_files),text=progress_text)
                 
         zip_file.close()
-        
+        status_container.write("Operation done. Please scroll downwards to download the zip file.")
         
         # ------------------------------------GENERATE ZIP LINK--------------------------------------------
         #Generate download zip button
