@@ -20,7 +20,8 @@ def generate_reports(uploaded_files):
         zip_file = zipfile.ZipFile("data_download.zip", mode="w")
         
         #Progress Bar
-        progress_bar = st.progress(0)
+        progress_text = "Operation in progress. Please wait."
+        progress_bar = st.progress(0,text=progress_text)
         
         #read df1
         file_name_sugg = 'Medidata Rave EDC Roles Assignment and Quarterly Review Suggestions.xlsx'                                       
