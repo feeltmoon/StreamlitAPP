@@ -753,27 +753,27 @@ def generate_reports(uploaded_files):
                                 if celly.value == wsChklist['A' + str(cellx.row)].value:
                                     celly.fill = PatternFill(start_color='0055CCCC',end_color='0055CCCC',fill_type='solid')
                 
-                #link1 = 'concat_final.xlsx#Result!P1'
-                link1 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!P1'"
-                wsChklist.cell(row=2, column=1).hyperlink = (link1)
+                # #link1 = 'concat_final.xlsx#Result!P1'
+                # link1 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!P1'"
+                # wsChklist.cell(row=2, column=1).hyperlink = (link1)
 
-                link2 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!Q1'"
-                wsChklist.cell(row=3, column=1).hyperlink = (link2)
+                # link2 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!Q1'"
+                # wsChklist.cell(row=3, column=1).hyperlink = (link2)
                 
-                link3 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!R1'"
-                wsChklist.cell(row=4, column=1).hyperlink = (link3)
+                # link3 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!R1'"
+                # wsChklist.cell(row=4, column=1).hyperlink = (link3)
                 
-                link4 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!S1'"
-                wsChklist.cell(row=5, column=1).hyperlink = (link4)
+                # link4 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!S1'"
+                # wsChklist.cell(row=5, column=1).hyperlink = (link4)
                 
-                link5 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!T1'"
-                wsChklist.cell(row=6, column=1).hyperlink = (link5)
+                # link5 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!T1'"
+                # wsChklist.cell(row=6, column=1).hyperlink = (link5)
                 
-                link6 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!U1'"
-                wsChklist.cell(row=7, column=1).hyperlink = (link6)
+                # link6 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!U1'"
+                # wsChklist.cell(row=7, column=1).hyperlink = (link6)
                 
-                link7 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!V1'"
-                wsChklist.cell(row=8, column=1).hyperlink = (link7)
+                # link7 = f"{file.name.split('.')[0]}_result.xlsx" + "#Result!V1'"
+                # wsChklist.cell(row=8, column=1).hyperlink = (link7)
                                 
                 # Saving
                 wb.save('concat_final.xlsx')
@@ -782,8 +782,32 @@ def generate_reports(uploaded_files):
 
                 # ------------------------------------ADD TO ZIP FILE--------------------------------------------                    
                 # Add the filtered data to the zip file
-                concat_final = f"{file.name.split('.')[0]}_result.xlsx"
+                concat_final = f"{file.name.split('.')[0]}_result.xlsx"                               
                 with open('concat_final.xlsx', 'rb') as f:
+                    
+                    # Add hyperlinks
+                    link1 = concat_final + "#Result!P1'"
+                    wsChklist.cell(row=2, column=1).hyperlink = (link1)
+
+                    link2 = concat_final + "#Result!Q1'"
+                    wsChklist.cell(row=3, column=1).hyperlink = (link2)
+                    
+                    link3 = concat_final + "#Result!R1'"
+                    wsChklist.cell(row=4, column=1).hyperlink = (link3)
+                    
+                    link4 = concat_final + "#Result!S1'"
+                    wsChklist.cell(row=5, column=1).hyperlink = (link4)
+                    
+                    link5 = concat_final + "#Result!T1'"
+                    wsChklist.cell(row=6, column=1).hyperlink = (link5)
+                    
+                    link6 = concat_final + "#Result!U1'"
+                    wsChklist.cell(row=7, column=1).hyperlink = (link6)
+                    
+                    link7 = concat_final + "#Result!V1'"
+                    wsChklist.cell(row=8, column=1).hyperlink = (link7)
+                    
+                    
                     data = f.read()
                     zip_file.writestr(concat_final, data)
                 # ------------------------------------ADD TO ZIP FILE--------------------------------------------
