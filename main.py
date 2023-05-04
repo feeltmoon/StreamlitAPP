@@ -271,8 +271,8 @@ def generate_reports(uploaded_files):
                 chk04_msk = chk04_mrg['Email_y'] > 1
                 chk04_mrg.loc[chk04_msk,'Review Result/Comment/Action'] = 'User has more than 1 EDC account in this study, please check and only keep one.'              
                 # GET SUM ERROR
-                chk04_sumError = chk04_mrg.loc[chk04_mrg['Review Result/Comment/Action'] == "User has more than 1 EDC account in this study, please check and only keep one.",:]
-                len(chk04_sumError)           
+                df_chk04_sumError = chk04_mrg.loc[chk04_mrg['Review Result/Comment/Action'] == "User has more than 1 EDC account in this study, please check and only keep one.",:]
+                chk04_sumError = len(df_chk04_sumError)           
                 def chk04_Classify(x,y,z):
                     if x == 'IxRS - Investigator' or x == 'Investigator' or x == 'IxRS - Sub-I' or x == 'Sub-I' or x == 'IxRS - Clinical Research Coordinator' or x == 'Clinical Research Coordinator' or x == 'Data Entry':
                         return 'ACOM/PMA/CTA/Regional designee'
