@@ -16,9 +16,6 @@ def find_file(filename, uploaded_files):
 def generate_reports(uploaded_files):
     
     if uploaded_files is not None:
-        
-        # Tell user that all the files are uploaded into streamlit.io
-        st.write("All the files have been uploaded successfully.") 
         # create a zip file pack
         zip_file = zipfile.ZipFile("data_download.zip", mode="w")      
         #Progress Bar
@@ -810,7 +807,7 @@ def generate_reports(uploaded_files):
                 progress_bar.progress((i + 1) / len(uploaded_files),text=progress_text)
                 
         zip_file.close()
-        status_container.write("Operation done. Please scroll downwards to download the zip file.")
+        status_container.write('<p style="font-size:15px">Operation done. Please scroll downwards to download the zip file.</p>',unsafe_allow_html=True)
         
         # ------------------------------------GENERATE ZIP LINK--------------------------------------------
         #Generate download zip button
@@ -834,6 +831,9 @@ def main():
     selected_option = st.selectbox("Choose an option", options)
     #Uploader
     uploaded_files = st.file_uploader("Choose your files", accept_multiple_files=True, type=['xlsx'])
+    # Tell user that all the files are uploaded into streamlit.io
+    if uploaded_files:
+        st.write("All the files have been uploaded successfully.")     
     #Execute Buttion
     button = st.button('Create Folder')
 
