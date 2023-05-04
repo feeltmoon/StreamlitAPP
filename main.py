@@ -574,7 +574,10 @@ def generate_reports(uploaded_files):
                 workbook = openpyxl.load_workbook('concat_final.xlsx')
                 new_sheet = workbook.create_sheet('Checklist')
                 # Move the second worksheet to the first position
-                workbook.move_sheet(new_sheet, offset=-1)             
+                workbook.move_sheet(new_sheet, offset=-1)
+                # Change worksheet name from 'Sheet1' to 'Result'
+                sheet_Result = workbook['Sheet1']
+                sheet_Result.title = 'Result'
                 # Write in checklist
                 new_sheet['A1'] = 'Checkpoint'
                 new_sheet['A2'] = 'Check03'
