@@ -807,7 +807,7 @@ def generate_reports(uploaded_files):
                 progress_bar.progress((i + 1) / len(uploaded_files),text=progress_text)
                 
         zip_file.close()
-        status_container.write('<p style="font-size:15px">Operation done. Please scroll downwards to download the zip file.</p>',unsafe_allow_html=True)
+        status_container.write('<p style="font-size:12px">Operation done. Please scroll downwards to download the zip file.</p>',unsafe_allow_html=True)
         
         # ------------------------------------GENERATE ZIP LINK--------------------------------------------
         #Generate download zip button
